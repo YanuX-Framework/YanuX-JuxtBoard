@@ -1,21 +1,20 @@
-import { NULL_ACTION } from '../actions'
+import { NULL_ACTION } from '../actions';
+import middleware from '../middleware';
 
-import middleware from '../middleware'
-
-import authenticationReducer, { initialState as authenticationReducerInitialState } from './authentication'
+import authenticationReducer, { initialState as authenticationInitialState } from './authentication';
+import yanuxCordinatorReducer, { initialState as yanuxCordinatorInitialState } from './yanuxCoordinator';
 
 export const initialState = {
-    authentication: authenticationReducerInitialState()
+    authentication: authenticationInitialState(),
+    yanuxCoordinator: yanuxCordinatorInitialState
 };
 
 export default (state = initialState, action = NULL_ACTION) => {
-    const { authentication } = state;
-
+    const { authentication, yanuxCoordinator } = state;
     const currentState = {
-        authentication: authenticationReducer(authentication, action)
+        authentication: authenticationReducer(authentication, action),
+        yanuxCoordinator: yanuxCordinatorReducer(yanuxCoordinator, action)
     }
-
     middleware(action, state, currentState);
-
     return currentState;
-}
+};

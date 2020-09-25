@@ -1,9 +1,4 @@
-import React, {
-    createContext,
-    useContext,
-    useReducer,
-    useCallback
-} from 'react';
+import React, { createContext, useContext, useReducer, useCallback } from 'react';
 
 import rootReducer, { initialState } from './reducers';
 
@@ -20,9 +15,5 @@ export default function Provider({ children }) {
 
     const dispatch = useCallback(asyncer(dispatchBase, state), []);
 
-    return (
-        <GlobalStore.Provider value={{ state, dispatch }}>
-            {children}
-        </GlobalStore.Provider>
-    );
+    return (<GlobalStore.Provider value={{ state, dispatch }}>{children}</GlobalStore.Provider>);
 }

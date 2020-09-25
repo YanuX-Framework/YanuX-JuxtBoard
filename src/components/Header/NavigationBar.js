@@ -3,15 +3,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import useAuthentication from '../../hooks/useAuthentication';
 
-
-export default function () {
+export default function (props) {
     const { authentication, initialize, logout } = useAuthentication();
 
-    const didMountRef = useRef(false)
+    const didMountRef = useRef(false);
 
     useEffect(() => {
         if (didMountRef.current) {
-            console.log('AUTHENTICATION ERROR:', authentication.error);
             if (authentication.error) {
                 if (authentication.error.name === 'NotAuthenticated') {
                     alert('You are not authenticated. Please login to use the application.');
@@ -21,11 +19,8 @@ export default function () {
                     alert('Something wrong has happened with your authentication. Please try to authenticate again.');
                 }
             }
-        } else {
-            didMountRef.current = true;
-            initialize();
-        }
-    }, [authentication, initialize]);
+        } else { didMountRef.current = true; initialize(); }
+    });
 
     const handleLogout = () => { logout(); }
 

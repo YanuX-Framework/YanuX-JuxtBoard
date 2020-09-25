@@ -1,5 +1,5 @@
-import NavigationBar from './NavigationBar'
+import NavigationBar from './NavigationBar';
 
 export default {
     NavigationBar
-}
+};

@@ -1,23 +1,23 @@
-import { NULL_ACTION } from '../actions'
+import { NULL_ACTION } from '../actions';
 import * as types from '../actions/types';
 
-import base64url from 'base64url'
-import randomBytes from 'randombytes'
-import shajs from 'sha.js'
+import base64url from 'base64url';
+import randomBytes from 'randombytes';
+import shajs from 'sha.js';
 
-import authenticationConfig from '../../config/authentication'
+import authenticationConfig from '../../config/authentication';
 
-import CustomError from '../../utils/CustomError'
+import CustomError from '../../utils/CustomError';
 
 export const initialState = () => {
-    const idToken = localStorage.getItem('id_token') ? JSON.parse(localStorage.getItem('id_token')) : null
-    const codeVerifier = sessionStorage.getItem('code_verifier') ? sessionStorage.getItem('code_verifier') : base64url(randomBytes(32))
-    const state = sessionStorage.getItem('state') ? sessionStorage.getItem('state') : base64url(randomBytes(16))
-    const nonce = sessionStorage.getItem('nonce') ? sessionStorage.getItem('nonce') : base64url(randomBytes(16))
-    const code_challenge = base64url.fromBase64(shajs('sha256').update(codeVerifier).digest('base64'))
-    sessionStorage.setItem('code_verifier', codeVerifier)
-    sessionStorage.setItem('state', state)
-    sessionStorage.setItem('nonce', nonce)
+    const idToken = localStorage.getItem('id_token') ? JSON.parse(localStorage.getItem('id_token')) : null;
+    const codeVerifier = sessionStorage.getItem('code_verifier') ? sessionStorage.getItem('code_verifier') : base64url(randomBytes(32));
+    const state = sessionStorage.getItem('state') ? sessionStorage.getItem('state') : base64url(randomBytes(16));
+    const nonce = sessionStorage.getItem('nonce') ? sessionStorage.getItem('nonce') : base64url(randomBytes(16));
+    const code_challenge = base64url.fromBase64(shajs('sha256').update(codeVerifier).digest('base64'));
+    sessionStorage.setItem('code_verifier', codeVerifier);
+    sessionStorage.setItem('state', state);
+    sessionStorage.setItem('nonce', nonce);
     return {
         idToken,
         codeVerifier,
@@ -39,8 +39,8 @@ export const initialState = () => {
         refreshToken: localStorage.getItem('refresh_token'),
         tokenType: localStorage.getItem('token_type'),
         error: null,
-    }
-}
+    };
+};
 
 export default (state = initialState(), action = NULL_ACTION) => {
     switch (action.type) {
@@ -62,7 +62,7 @@ export default (state = initialState(), action = NULL_ACTION) => {
             });
         case types.EXCHANGED_AUTHORIZATION_CODE:
         case types.EXCHANGED_REFRESH_TOKEN:
-            const tempState = {}
+            const tempState = {};
             //Check if all information needed is available
             if (!action.json.error &&
                 action.json.expires_in &&
@@ -71,23 +71,23 @@ export default (state = initialState(), action = NULL_ACTION) => {
                 action.json.token_type) {
                 //Store it into the application state
                 tempState.authTimestamp = Math.floor(Date.now() / 1000);
-                tempState.expiresIn = action.json.expires_in
-                tempState.accessToken = action.json.access_token
-                tempState.refreshToken = action.json.refresh_token
-                tempState.tokenType = action.json.token_type
+                tempState.expiresIn = action.json.expires_in;
+                tempState.accessToken = action.json.access_token;
+                tempState.refreshToken = action.json.refresh_token;
+                tempState.tokenType = action.json.token_type;
                 //Persist it into Local Storage
-                localStorage.setItem('auth_timestamp', tempState.authTime)
-                localStorage.setItem('auth_expires_in', tempState.expiresIn)
-                localStorage.setItem('access_token', tempState.accessToken)
-                localStorage.setItem('refresh_token', tempState.refreshToken)
-                localStorage.setItem('token_type', tempState.tokenType)
+                localStorage.setItem('auth_timestamp', tempState.authTime);
+                localStorage.setItem('auth_expires_in', tempState.expiresIn);
+                localStorage.setItem('access_token', tempState.accessToken);
+                localStorage.setItem('refresh_token', tempState.refreshToken);
+                localStorage.setItem('token_type', tempState.tokenType);
             } else {
                 //If there was an error save it for further processing
-                tempState.error = new CustomError(action.json.error, action.json.error_description)
+                tempState.error = new CustomError(action.json.error, action.json.error_description);
             }
-            window.history.pushState('', document.title, window.location.pathname + window.location.search)
+            window.history.pushState('', document.title, window.location.pathname + window.location.search);
             return Object.assign({}, state, tempState);
         default:
-            return state
+            return state;
     }
 }
