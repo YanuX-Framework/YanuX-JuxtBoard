@@ -1,5 +1,5 @@
 {
-  "name": "@yanux/juxt-board",
+  "name": "@yanux/juxtboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
