@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './components/Header'
 import YanuX from './components/YanuX'
+import Board from './components/Board'
+
 
 function App() {
   // return (
@@ -20,7 +22,9 @@ function App() {
   return (
     <div className="App">
       <Header.NavigationBar />
-      <YanuX.Coordinator />
+      <YanuX.Coordinator>
+        {passedProps => <Board.View {...passedProps} />}
+      </YanuX.Coordinator>
     </div>
   );
 }

@@ -16,3 +16,12 @@
     color: white;
     transform: translate(-50%,-50%);
   }
+  
+  .yanux-element {
+    width: max-content;
+    margin: 8px auto;
+    background-color: white;
+    padding: 4px;
+    border: 1px solid black;
+    border-radius: 8px;
+  }

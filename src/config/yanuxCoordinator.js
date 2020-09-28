@@ -1,5 +1,14 @@
 export default {
     components_restrictions: {
+        "List": {
+            showByDefault: true,
+            display: true
+        },
+        "Note": {
+            showByDefault: true,
+            display: true
+        }
+        // ---------------------------------------------------------------------
         // "screen": {
         //     "showByDefault": true,
         //     "type": { "value": "smartphone", "enforce": false },
@@ -17,5 +26,6 @@ export default {
         //     "display": true,
         //     "input": { "operator": "OR", "values": ["mouse", "touchscreen"] }
         // }
+        // ---------------------------------------------------------------------
     }
 }

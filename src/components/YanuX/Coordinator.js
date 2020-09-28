@@ -1,10 +1,16 @@
 import './Coordinator.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+
 import useAuthentication from '../../hooks/useAuthentication';
 import useYanuxCoordinator from '../../hooks/useYanuxCoordinator';
 
 export default function (props) {
-    const { authentication, logout } = useAuthentication();
+    const {
+        authentication,
+        logout
+    } = useAuthentication();
+
     const {
         yanuxCoordinator,
         connected,
@@ -12,6 +18,19 @@ export default function (props) {
         configureComponents,
         instanceComponentsDistributed,
     } = useYanuxCoordinator();
+
+    const [alert, setAlert] = useState({ show: false });
+    const [state, setState] = useState({});
+
+    const handleOpenModal = (newTitle, newMessage) => {
+        const title = newTitle || alert.title;
+        const message = newMessage || alert.message;
+        setAlert({ title, message, show: true });
+    }
+
+    const handleCloseModal = () => {
+        setAlert({ show: false });
+    }
 
     const updateResources = () => {
         const { coordinator } = yanuxCoordinator;
@@ -27,10 +46,11 @@ export default function (props) {
         if (data /* && Check if data has changed */) {
             console.log('[YXC] Update State:', data);
             //TODO: Update Local State with New Values
+            setState(data);
         }
     };
 
-    //TODO: This is also a good candidate to be included into the framework.
+    //TODO: I should probably find a way to make this updateComponents pattern something that is "promoted" by the library/framework itself. 
     const updateComponents = (instance = null) => {
         const { coordinator, componentsRuleEngine } = yanuxCoordinator;
         console.log('yanuxCoordinator:', yanuxCoordinator);
@@ -89,11 +109,10 @@ export default function (props) {
             return Promise.all([Promise.resolve(data), coordinator.subscribeResource(resourceSubscriptionHandler, resourceId)]);
         }).then(results => {
             const [data, resourceSubscription] = results;
-            //TODO: Update Local State with New Values
+            setState(data);
             console.log('[YXC] Resource Subscription:', resourceSubscription, 'Data:', data);
         }).catch(err => {
-            //TODO: Display Error 
-            //(e.g., handleOpenModal('Error Selecting Resource', err.message))
+            handleOpenModal('Error Selecting Resource', err.message);
             console.error('[YXC] Error Selecting Resource:', err);
         })
     };
@@ -136,8 +155,110 @@ export default function (props) {
         updateState(state);
     };
 
+    const resourceSelected = e => {
+        console.log('[YXRME] Resource Selected:', e.detail)
+        selectResource(e.detail.selectedResourceId)
+    }
+
+    const createResource = e => {
+        console.log('[YXRME] Create Resource:', e.detail)
+        const { coordinator } = yanuxCoordinator;
+        coordinator.createResource(e.detail.resourceName)
+            .then(resource => {
+                console.log('[YXRME] Resource Created:', resource)
+            }).catch(err => {
+                handleOpenModal('Error Selecting Resource', err.message)
+                console.error('[YXRME] Error Creating Resource:', err)
+            })
+    }
+
+    const renameResource = e => {
+        console.log('[YXRME] Rename Resource:', e.detail)
+        const { coordinator } = yanuxCoordinator;
+        coordinator.renameResource(e.detail.resourceName, e.detail.resourceId)
+            .then(resource => {
+                console.log('[YXRME] Resource Renamed:', resource)
+                updateResources()
+            }).catch(err => {
+                handleOpenModal('Error Selecting Resource', err.message)
+                console.error('[YXRME] Error Renameing Resource:', err)
+            })
+    }
+
+    const deleteResource = e => {
+        const { coordinator } = yanuxCoordinator;
+        console.log('[YXRME] Delete Resource:', e.detail)
+        coordinator.deleteResource(e.detail.resourceId)
+            .then(resource => {
+                console.log('[YXRME] Resource Deleted:', resource)
+                updateResources()
+            }).catch(err => {
+                handleOpenModal('Error Selecting Resource', err.message)
+                console.error('[YXRME] Error Deleting Resource:', err)
+            })
+    }
+
+    const shareResource = e => {
+        console.log('[YXRME] Share Resource:', e.detail)
+        const { coordinator } = yanuxCoordinator;
+        coordinator.shareResource(e.detail.userEmail, e.detail.resourceId)
+            .then(resource => {
+                console.log('[YXRME] Resource Shared:', resource)
+                updateResources()
+            }).catch(err => {
+                handleOpenModal('Error Selecting Resource', err.message)
+                console.error('[YXRME] Error Sharing Resource:', err)
+            })
+    }
+
+    const unshareResource = e => {
+        console.log('[YXRME] Unshare Resource:', e.detail)
+        const { coordinator } = yanuxCoordinator;
+        coordinator.unshareResource(e.detail.userEmail, e.detail.resourceId)
+            .then(resource => {
+                console.log('[YXRME] Resource Unshared:', resource)
+                updateResources()
+            }).catch(err => {
+                handleOpenModal('Error Selecting Resource', err.message)
+                console.error('[YXRME] Error Unsharing Resource:', err)
+            });
+    }
+
+    //TODO: This is also a good candidate to be included into the framework.
+    const updatedComponentsDistribution = e => {
+        const { coordinator } = yanuxCoordinator;
+        console.log('[YXCDE] Updated Components Distribution:', e.detail)
+        const componentsDistribution = e && e.detail && e.detail.componentsDistribution ? e.detail.componentsDistribution : null
+        if (coordinator && componentsDistribution) {
+            Promise.all(Object.keys(componentsDistribution)
+                .map(instanceId => coordinator.setComponentDistribution(
+                    componentsDistribution[instanceId].components,
+                    componentsDistribution[instanceId].auto,
+                    instanceId
+                ))
+            ).then(results => {
+                console.log('[YXCDE] Updated Instances Based on the New Components Distribution:', results);
+            }).catch(e => {
+                console.error('[YXCDE] Something went wrong while updating Instances based on the new Components Distribution:', e);
+            });
+        }
+    }
+
+    //TODO: This is also a good candidate to be included into the framework.
+    const resetAutoComponentsDistribution = e => {
+        const { coordinator } = yanuxCoordinator;
+        coordinator.getActiveInstances()
+            .then(activeInstances => { distributeComponents(e.detail.instanceId, activeInstances, true) })
+            .catch(err => console.error('[YXCDE] Error while getting active instances:', err));
+        console.error('[YXCDE] Reset Auto Components Distribution:', e.detail);
+    }
+
     const coordinatorInitializedRef = useRef(false);
     const componentsRuleEngineInitializedRef = useRef(false);
+
+    const resourceManagementRef = useRef();
+    const componentsDistributionRef = useRef();
+
     useEffect(() => {
         const { coordinator, componentsRuleEngine } = yanuxCoordinator;
         if (!coordinatorInitializedRef.current && coordinator) {
@@ -165,10 +286,34 @@ export default function (props) {
         } else if (!componentsRuleEngineInitializedRef.current && componentsRuleEngine) {
             updateComponents(); componentsRuleEngineInitializedRef.current = true;
         }
-    });
 
-    const resourceManagementRef = useRef();
-    const componentsDistributionRef = useRef();
+        if (resourceManagementRef.current) {
+            resourceManagementRef.current.addEventListener('resource-selected', resourceSelected);
+            resourceManagementRef.current.addEventListener('create-resource', createResource);
+            resourceManagementRef.current.addEventListener('rename-resource', renameResource);
+            resourceManagementRef.current.addEventListener('delete-resource', deleteResource);
+            resourceManagementRef.current.addEventListener('share-resource', shareResource);
+            resourceManagementRef.current.addEventListener('unshare-resource', unshareResource);
+        }
+        if (componentsDistributionRef.current) {
+            componentsDistributionRef.current.addEventListener('updated-components-distribution', updatedComponentsDistribution);
+            componentsDistributionRef.current.addEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
+        }
+        return () => {
+            if (resourceManagementRef.current) {
+                resourceManagementRef.current.removeEventListener('resource-selected', resourceSelected);
+                resourceManagementRef.current.removeEventListener('create-resource', createResource);
+                resourceManagementRef.current.removeEventListener('rename-resource', renameResource);
+                resourceManagementRef.current.removeEventListener('delete-resource', deleteResource);
+                resourceManagementRef.current.removeEventListener('share-resource', shareResource);
+                resourceManagementRef.current.removeEventListener('unshare-resource', unshareResource);
+            }
+            if (componentsDistributionRef.current) {
+                componentsDistributionRef.current.removeEventListener('updated-components-distribution', updatedComponentsDistribution);
+                componentsDistributionRef.current.removeEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
+            }
+        }
+    });
 
     if (yanuxCoordinator.connected) {
         return (
@@ -181,6 +326,7 @@ export default function (props) {
                             selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
                             resources={JSON.stringify(yanuxCoordinator.resources)} />
                     </div>
+                    {props.children(state)}
                     <div className="yanux-element components-distribution">
                         <span className="info">Devices</span>
                         <yanux-components-distribution
@@ -189,12 +335,23 @@ export default function (props) {
                             componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
                     </div>
                 </div>
+                <div className="alert">
+                    <Modal show={alert.show} onHide={handleCloseModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{alert.title}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{alert.message}</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="primary" onClick={handleCloseModal}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
             </React.Fragment>);
-    } else {
+    } else if (authentication.idToken) {
         return (
             <div className="overlay">
                 <div className="text">Loading</div>
             </div>
         );
-    }
+    } else { return null; }
 }
