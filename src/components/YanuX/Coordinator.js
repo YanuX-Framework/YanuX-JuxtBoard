@@ -287,30 +287,33 @@ export default function (props) {
             updateComponents(); componentsRuleEngineInitializedRef.current = true;
         }
 
-        if (resourceManagementRef.current) {
-            resourceManagementRef.current.addEventListener('resource-selected', resourceSelected);
-            resourceManagementRef.current.addEventListener('create-resource', createResource);
-            resourceManagementRef.current.addEventListener('rename-resource', renameResource);
-            resourceManagementRef.current.addEventListener('delete-resource', deleteResource);
-            resourceManagementRef.current.addEventListener('share-resource', shareResource);
-            resourceManagementRef.current.addEventListener('unshare-resource', unshareResource);
+        const resourceManagementElement = resourceManagementRef.current;
+        if (resourceManagementElement) {
+            resourceManagementElement.addEventListener('resource-selected', resourceSelected);
+            resourceManagementElement.addEventListener('create-resource', createResource);
+            resourceManagementElement.addEventListener('rename-resource', renameResource);
+            resourceManagementElement.addEventListener('delete-resource', deleteResource);
+            resourceManagementElement.addEventListener('share-resource', shareResource);
+            resourceManagementElement.addEventListener('unshare-resource', unshareResource);
         }
-        if (componentsDistributionRef.current) {
-            componentsDistributionRef.current.addEventListener('updated-components-distribution', updatedComponentsDistribution);
-            componentsDistributionRef.current.addEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
+
+        const componentsDistributionElement = componentsDistributionRef.current;
+        if (componentsDistributionElement) {
+            componentsDistributionElement.addEventListener('updated-components-distribution', updatedComponentsDistribution);
+            componentsDistributionElement.addEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
         }
         return () => {
-            if (resourceManagementRef.current) {
-                resourceManagementRef.current.removeEventListener('resource-selected', resourceSelected);
-                resourceManagementRef.current.removeEventListener('create-resource', createResource);
-                resourceManagementRef.current.removeEventListener('rename-resource', renameResource);
-                resourceManagementRef.current.removeEventListener('delete-resource', deleteResource);
-                resourceManagementRef.current.removeEventListener('share-resource', shareResource);
-                resourceManagementRef.current.removeEventListener('unshare-resource', unshareResource);
+            if (resourceManagementElement) {
+                resourceManagementElement.removeEventListener('resource-selected', resourceSelected);
+                resourceManagementElement.removeEventListener('create-resource', createResource);
+                resourceManagementElement.removeEventListener('rename-resource', renameResource);
+                resourceManagementElement.removeEventListener('delete-resource', deleteResource);
+                resourceManagementElement.removeEventListener('share-resource', shareResource);
+                resourceManagementElement.removeEventListener('unshare-resource', unshareResource);
             }
-            if (componentsDistributionRef.current) {
-                componentsDistributionRef.current.removeEventListener('updated-components-distribution', updatedComponentsDistribution);
-                componentsDistributionRef.current.removeEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
+            if (componentsDistributionElement) {
+                componentsDistributionElement.removeEventListener('updated-components-distribution', updatedComponentsDistribution);
+                componentsDistributionElement.removeEventListener('reset-auto-components-distribution', resetAutoComponentsDistribution);
             }
         }
     });
