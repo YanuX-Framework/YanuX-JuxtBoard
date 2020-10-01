@@ -1,7 +1,7 @@
 const config = {
     APP: "juxtboard",
     BROKER_URL: "https://yanux-broker.herokuapp.com",
-    //LOCAL_DEVICE_URL: "https://albuquerques.net/yanux/device0"
+    LOCAL_DEVICE_URL: "https://albuquerques.net/yanux/device0"
 };
 
 export default {
