@@ -4,8 +4,8 @@ export default (action, prevState, currentState) => {
     if (currentState.yanuxCoordinator.coordinator &&
         currentState.yanuxCoordinator.coordinator.isConnected() &&
         //TODO: List the action types you used and that you want to propagate to the YanuX Broker
-        [/*e.g.:*/types.NULL].find(t => action.type === t)) {
-        //TODO: Costumize the resource data according to your needs. This is just a simple example.
+        [types.ADD_NOTE].find(t => action.type === t)) {
+        //TODO: Customize the resource data according to your needs. This is just a simple example.
         const resourceData = {
             actionType: action.type,
             board: currentState.board

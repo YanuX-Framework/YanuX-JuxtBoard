@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       <Header.NavigationBar />
       <YanuX.Coordinator>
-        {passedProps => <Board.View {...passedProps} />}
+        <Board.View />
       </YanuX.Coordinator>
     </div>
   );

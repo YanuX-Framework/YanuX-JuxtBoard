@@ -7,12 +7,14 @@ export const initialState = {
 
 export default (state = initialState, action = NULL_ACTION) => {
     switch (action.type) {
-        //TODO: Implement Board Specific Actions
-        //e.g.:
-        case types.NULL:
+        case types.ADD_NOTE:
             return Object.assign(state, {
-                //Something you want to change/override
-            })
+                notes: [...state.notes, action.text]
+            });
+        case types.SET_BOARD:
+            return Object.assign(state, {
+                notes: action.board ? action.board.notes : null || []
+            });
         default:
             return state;
     }

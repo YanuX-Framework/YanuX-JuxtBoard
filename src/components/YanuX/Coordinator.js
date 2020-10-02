@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 import useAuthentication from '../../hooks/useAuthentication';
 import useYanuxCoordinator from '../../hooks/useYanuxCoordinator';
+import useBoard from '../../hooks/useBoard';
 
 export default function (props) {
     const {
@@ -19,8 +20,9 @@ export default function (props) {
         instanceComponentsDistributed,
     } = useYanuxCoordinator();
 
+    const { setBoard } = useBoard();
+
     const [alert, setAlert] = useState({ show: false });
-    const [state, setState] = useState({});
 
     const handleOpenModal = (newTitle, newMessage) => {
         const title = newTitle || alert.title;
@@ -45,8 +47,7 @@ export default function (props) {
     const updateState = (data) => {
         if (data /* && Check if data has changed */) {
             console.log('[YXC] Update State:', data);
-            //TODO: Update Local State with New Values
-            setState(data);
+            setBoard(data.board);
         }
     };
 
@@ -109,7 +110,7 @@ export default function (props) {
             return Promise.all([Promise.resolve(data), coordinator.subscribeResource(resourceSubscriptionHandler, resourceId)]);
         }).then(results => {
             const [data, resourceSubscription] = results;
-            setState(data);
+            setBoard(data.board);
             console.log('[YXC] Resource Subscription:', resourceSubscription, 'Data:', data);
         }).catch(err => {
             handleOpenModal('Error Selecting Resource', err.message);
@@ -273,6 +274,9 @@ export default function (props) {
                 resourceSubscriptionHandler(initialState);
                 updateResources();
             }).catch(err => {
+                //TODO:
+                //Try to reauthenticate with Access Token.
+                //If that fails, try to acquire a new Access Token with the Refresh Token and re-attempt to authenticate with the new token.
                 console.error('[YXC] Error Connecting to YanuX Broker', err);
                 logout();
             });
@@ -329,7 +333,7 @@ export default function (props) {
                             selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
                             resources={JSON.stringify(yanuxCoordinator.resources)} />
                     </div>
-                    {props.children(state)}
+                    {props.children}
                     <div className="yanux-element components-distribution">
                         <span className="info">Devices</span>
                         <yanux-components-distribution

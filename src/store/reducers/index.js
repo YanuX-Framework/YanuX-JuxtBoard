@@ -8,7 +8,7 @@ import boardReducer, { initialState as boardInitialState } from './board';
 export const initialState = {
     authentication: authenticationInitialState(),
     yanuxCoordinator: yanuxCordinatorInitialState,
-    boardReducer: boardInitialState
+    board: boardInitialState
 };
 
 export default (state = initialState, action = NULL_ACTION) => {
@@ -16,7 +16,7 @@ export default (state = initialState, action = NULL_ACTION) => {
     const currentState = {
         authentication: authenticationReducer(authentication, action),
         yanuxCoordinator: yanuxCordinatorReducer(yanuxCoordinator, action),
-        boardReducer: boardReducer(board, action)
+        board: boardReducer(board, action)
     }
     middleware(action, state, currentState);
     return currentState;
