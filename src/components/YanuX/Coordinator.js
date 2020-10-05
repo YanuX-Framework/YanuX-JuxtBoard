@@ -1,6 +1,7 @@
 import './Coordinator.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { isEqual } from 'lodash';
 
 import useAuthentication from '../../hooks/useAuthentication';
 import useYanuxCoordinator from '../../hooks/useYanuxCoordinator';
@@ -20,7 +21,7 @@ export default function (props) {
         instanceComponentsDistributed,
     } = useYanuxCoordinator();
 
-    const { setBoard } = useBoard();
+    const { board, setBoard } = useBoard();
 
     const [alert, setAlert] = useState({ show: false });
 
@@ -45,7 +46,7 @@ export default function (props) {
     };
 
     const updateState = (data) => {
-        if (data /* && Check if data has changed */) {
+        if (data && data.board && !isEqual(board, data.board)) {
             console.log('[YXC] Update State:', data);
             setBoard(data.board);
         }

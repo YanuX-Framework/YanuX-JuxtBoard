@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Container, Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
+
 import useBoard from '../../hooks/useBoard';
 
 export default function (props) {
@@ -15,18 +17,29 @@ export default function (props) {
         addNote(noteText);
     };
 
-    //TODO: Remake this use react-bootstrap components: https://react-bootstrap.github.io/
     return (
         <React.Fragment>
-            <div>
-                <textarea value={noteText} onChange={handleNoteTextChange}></textarea>
-                <br />
-                <button onClick={handleAddNoteButtonClick}>Add Note</button>
-            </div>
-            <h1>Board State</h1>
-            <div>
-                {JSON.stringify(board, null, 2)}
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <Form>
+                            <Form.Group controlId="noteForm.text">
+                                <Form.Label>Note Text</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
+                            </Form.Group>
+                            <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
+                        </Form>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <h1>Board State</h1>
+                        <ListGroup>
+                            {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            </Container>
         </React.Fragment>
     )
 }
