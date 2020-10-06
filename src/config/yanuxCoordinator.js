@@ -11,7 +11,6 @@ export default {
         // ---------------------------------------------------------------------
         // "screen": {
         //     "showByDefault": true,
-        //     "type": { "value": "smartphone", "enforce": false },
         //     "display": {
         //         "operator": "AND",
         //         "values": {
