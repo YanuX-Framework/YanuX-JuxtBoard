@@ -17,6 +17,13 @@ export default function (props) {
         addNote(noteText);
     };
 
+    /**
+     * TODO:
+     * Not really required right now, but it would be nice to add internationalization support in the future.
+     * The two most common solutions for React applications seem to be:
+     * - https://react.i18next.com/
+     * - https://formatjs.io/docs/getting-started/installation
+     */
     return (
         <React.Fragment>
             <Container>
