@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, ListGroup, Navbar, Nav, NavbarBrand, Link} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, ListGroup, Navbar, Nav, NavbarBrand, Link, Card } from 'react-bootstrap';
 import './View.css';
-import note from '../../bootstrap-studio/img/note1.png';
 import YanuX from '../YanuX'
 import useBoard from '../../hooks/useBoard';
+import NoteList from '../NoteList';
 
 export default function (props) {
     const { board, addNote } = useBoard();
@@ -32,52 +32,42 @@ export default function (props) {
                 <Container>
                     <Row>
                         <Col className="col-lg-12 text-center">
-                        <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
-                        <h3 className="text-muted section-subheading" style={{"margin-bottom": "15px"}}>Update the current collection viewed</h3>
+                            <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
+                            <h3 className="text-muted section-subheading" style={{ "margin-bottom": "15px" }}>Update the current collection viewed</h3>
                         </Col>
                     </Row>
                     <Row className="text-center">
                         <Col md={{ span: 6, offset: 3 }}>
-                            <YanuX.Coordinator type="resources"></YanuX.Coordinator>  
-                        </Col>              
+                            <YanuX.Coordinator type="resources"></YanuX.Coordinator>
+                        </Col>
                     </Row>
                 </Container>
             </section>
-             <section id="portfolio" className="bg-light auxSection" href="#services">
+            <section id="portfolio" className="bg-light auxSection" href="#services">
                 <Container>
                     <Row>
                         <Col className="col-lg-12 text-center">
-                        <h2 className="text-uppercase section-heading">NOTES</h2>
-                        <h3 className="text-muted section-subheading" id="notesSubtitle">List of all the notes in the collection</h3>
-                        <Button className="text-center" id="addNoteButton">ADD NOTE</Button>
+                            <h2 className="text-uppercase section-heading">NOTES</h2>
+                            <h3 className="text-muted section-subheading" id="notesSubtitle">List of all the notes in the collection</h3>
+                            <Button className="text-center" id="addNoteButton">ADD NOTE</Button>
                         </Col>
                     </Row>
-                    <Row className="row" id="notesListRow">
-                        <Col className="col-sm-6 col-md-4 portfolio-item">
-                        <a className="portfolio-link" data-toggle="modal" href="#portfolioModal1">
-                            <div className="portfolio-hover" style={{height: "262px"}}>
-                                <div className="portfolio-hover-content"><i className="fa fa-plus fa-3x"></i></div>
-                            </div><img className="img-fluid" src={note} style={{height: "262.484px"}} /></a>
-                            <div className="portfolio-caption">
-                                <h4>Text</h4>
-                            </div>
-                            </Col>                    
-                    </Row>
+                    <NoteList />
                 </Container>
             </section>
             <section id="distribution" className="js-scroll-trigger" href="#services">
                 <Container>
                     <Row>
-                        <Col className="col-lg-12 text-center">                            
-                        <h2 className="text-uppercase section-heading">UI DISTRIBUTION</h2>
-                        <h3 className="text-muted section-subheading" id="distributionHeading">
-                            Manually distribute the interface between the available devices
+                        <Col className="col-lg-12 text-center">
+                            <h2 className="text-uppercase section-heading">UI DISTRIBUTION</h2>
+                            <h3 className="text-muted section-subheading" id="distributionHeading">
+                                Manually distribute the interface between the available devices
                             </h3>
                         </Col>
                     </Row>
                     <Row className="row text-center">
                         <Col md={{ span: 6, offset: 3 }}>
-                        <YanuX.Coordinator type="services"></YanuX.Coordinator>
+                            <YanuX.Coordinator type="services"></YanuX.Coordinator>
                         </Col>
                     </Row>
                 </Container>
@@ -89,30 +79,30 @@ export default function (props) {
                     </div>
                 </div>
             </footer>
-            </React.Fragment>
-
-            // <React.Fragment>
-            //     <Container>
-            //         <Row>
-            //             <Col>
-            //                 <Form>
-            //                     <Form.Group controlId="noteForm.text">
-            //                         <Form.Label>Note Text</Form.Label>
-            //                         <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
-            //                     </Form.Group>
-            //                     <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
-            //                 </Form>
-            //             </Col>
-            //         </Row>
-            //         <Row>
-            //             <Col>
-            //                 <h1>Board State</h1>
-            //                 <ListGroup>
-            //                     {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
-            //                 </ListGroup>
-            //             </Col>
-            //         </Row>
-            //     </Container>
-            // </React.Fragment>
+        </React.Fragment>
+        /* 
+                    // <React.Fragment>
+                    //     <Container>
+                    //         <Row>
+                    //             <Col>
+                    //                 <Form>
+                    //                     <Form.Group controlId="noteForm.text">
+                    //                         <Form.Label>Note Text</Form.Label>
+                    //                         <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
+                    //                     </Form.Group>
+                    //                     <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
+                    //                 </Form>
+                    //             </Col>
+                    //         </Row>
+                    //         <Row>
+                    //             <Col>
+                    //                 <h1>Board State</h1>
+                    //                 <ListGroup>
+                    //                     {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
+                    //                 </ListGroup>
+                    //             </Col>
+                    //         </Row>
+                    //     </Container>
+        // </React.Fragment> */
     )
 }
