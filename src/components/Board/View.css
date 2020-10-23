@@ -1,0 +1,24 @@
+#collection{
+    padding-top: 30px;padding-bottom: 50px;
+}
+
+h3{
+    margin-bottom: 15px;
+}
+
+#portfolio{
+    padding-top: 30px;padding-bottom: 50px;
+}
+
+.notesHeading{
+    margin: 12px;margin-bottom: 15px;
+}
+
+.btn{
+    padding: 6px 14px;
+    padding-bottom: 15px;
+}
+
+.notesListRow{
+    padding: 12px;
+}

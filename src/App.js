@@ -20,11 +20,9 @@ function App() {
   //   </div>
   // );
   return (
-    <div className="App">
+    <div className="App" id="page-top">
       <Header.NavigationBar />
-      <YanuX.Coordinator>
         <Board.View />
-      </YanuX.Coordinator>
     </div>
   );
 }
