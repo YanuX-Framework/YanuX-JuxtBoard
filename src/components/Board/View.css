@@ -1,24 +1,27 @@
 #collection{
-    padding-top: 30px;padding-bottom: 50px;
+    padding-top:130px;
+    padding-bottom: 50px;
 }
 
-h3{
+#notesSubtitle{
+    margin: 12px;
     margin-bottom: 15px;
 }
 
-#portfolio{
-    padding-top: 30px;padding-bottom: 50px;
+#addNoteButton{
+    padding: 6px 14px;padding-bottom: 15px;
 }
 
-.notesHeading{
-    margin: 12px;margin-bottom: 15px;
-}
-
-.btn{
-    padding: 6px 14px;
-    padding-bottom: 15px;
-}
-
-.notesListRow{
+#notesListRow{
     padding: 12px;
+}
+
+#distributionHeading{
+    margin-bottom: 15px;
+}
+
+#portfolio, #distribution{
+    
+    padding-top:30px;
+    padding-bottom: 50px;
 }

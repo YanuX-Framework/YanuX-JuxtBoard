@@ -4,22 +4,10 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import useAuthentication from '../../hooks/useAuthentication';
 
-
 export default function (props) {
     const { authentication, initialize, logout } = useAuthentication();
 
     const didMountRef = useRef(false);
-
-    const customToggle = () => {
-
-            return (
-                <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    AQUIAQUI
-                    {console.log('ESTAMOS NESSA VANESSA')}
-                    <i class="fa fa-bars"></i>
-                    </button>
-            );
-    }
 
     useEffect(() => {
         if (didMountRef.current) {
@@ -35,14 +23,22 @@ export default function (props) {
         } else { didMountRef.current = true; initialize(); }
     });
 
+    const CustomToggler = () => {
+        return(
+            <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+                </button>
+        );
+    }
+
     const handleLogout = () => { logout(); }
 
     return (
-        <Navbar id="mainNav" className="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+        <Navbar id="mainNav" collapseOnSelect expand="lg" className="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
             <Container>
             <Navbar.Brand className="navbar-brand" href="#page-top">JuxtBoard</Navbar.Brand>
-            <Navbar.Toggle className="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></Navbar.Toggle>
-            <Navbar.Collapse id="navbarResponsive" className="collapse navbar-collapse show">
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="nav navbar-nav ml-auto">
                     <Nav.Item className="nav-item">
                     {authentication.idToken && authentication.idToken.email ?

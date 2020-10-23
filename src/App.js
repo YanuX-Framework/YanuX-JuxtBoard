@@ -1,11 +1,12 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './bootstrap-studio/bootstrap.min.css';
+import './bootstrap-studio/fonts/font-awesome.min.css';
+import './bootstrap-studio/overall.css';
 
 //import logo from './logo.svg';
 //import './App.css';
 
 import Header from './components/Header'
-import YanuX from './components/YanuX'
 import Board from './components/Board'
 
 
@@ -20,10 +21,10 @@ function App() {
   //   </div>
   // );
   return (
-    <div className="App" id="page-top">
+    <body className="App" id="page-top">
       <Header.NavigationBar />
         <Board.View />
-    </div>
+    </body>
   );
 }
 

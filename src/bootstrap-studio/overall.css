@@ -1,0 +1,16 @@
+.card-body.image-responsive {
+  margin: 0 auto;
+}
+
+.img-responsive {
+  margin: 0 auto;
+}
+
+.col-md-4.d-xl-flex {
+  margin: auto;
+}
+
+.img-fluid, .img-thumbnail {
+  margin: auto;
+}
+
