@@ -11,7 +11,7 @@ export const NoteList = (props) => {
         <Row id="notesListRow">
 
             {board.notes.map(note =>
-                <Col className="col-sm-6 col-md-4 portfolio-item">
+                <Col className="col-sm-6 col-md-4 portfolio-item" key={note.text}>
                     <a className="portfolio-link" data-toggle="modal" href="#portfolioModal1">
                         <Card className="portfolio-hover-content" style={{height: "262 px"}}>
                             <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>
@@ -22,8 +22,8 @@ export const NoteList = (props) => {
                                     </Card.Text>
                                 </Card.Body>
                             </Card.ImgOverlay>                        
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                            <div className="portfolio-hover">
+                                <div className="portfolio-hover-content"><i className="fa fa-plus fa-3x"></i></div>
                             </div>
                         </Card>
                     </a>

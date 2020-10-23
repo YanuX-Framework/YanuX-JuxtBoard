@@ -23,14 +23,6 @@ export default function (props) {
         } else { didMountRef.current = true; initialize(); }
     });
 
-    const CustomToggler = () => {
-        return(
-            <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars"></i>
-                </button>
-        );
-    }
-
     const handleLogout = () => { logout(); }
 
     return (

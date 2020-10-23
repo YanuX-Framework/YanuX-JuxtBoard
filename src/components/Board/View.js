@@ -4,19 +4,27 @@ import './View.css';
 import YanuX from '../YanuX'
 import useBoard from '../../hooks/useBoard';
 import NoteList from '../NoteList';
+import AddNote from '../Note/AddNote';
+import useAuthentication from '../../hooks/useAuthentication';
 
 export default function (props) {
     const { board, addNote } = useBoard();
 
+    const { authentication, initialize, logout } = useAuthentication();
+
     const [noteText, setNoteText] = useState('Hello World');
+
+    const[showAddModal, setVisibilityAddModal] = useState(false);
 
     const handleNoteTextChange = (event) => {
         setNoteText(event.target.value);
     };
 
-    const handleAddNoteButtonClick = () => {
-        console.log('Note Text:', noteText);
-        addNote(noteText);
+    const onAddFile = (text) => {
+        //setNoteText(text);
+        //setVisibilityAddModal(false);
+        console.log('Note text: ' + text);
+        //addNote(noteText);
     };
 
     /**
@@ -27,13 +35,17 @@ export default function (props) {
      * - https://formatjs.io/docs/getting-started/installation
      */
     return (
+        
         <React.Fragment>
+            
+        {authentication.idToken && authentication.idToken.email ?
+        <React.Fragment> 
             <section id="collection" className="js-scroll-trigger resourcesSection" href="#services">
                 <Container>
                     <Row>
                         <Col className="col-lg-12 text-center">
                             <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
-                            <h3 className="text-muted section-subheading" style={{ "margin-bottom": "15px" }}>Update the current collection viewed</h3>
+                            <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Update the current collection viewed</h3>
                         </Col>
                     </Row>
                     <Row className="text-center">
@@ -49,7 +61,8 @@ export default function (props) {
                         <Col className="col-lg-12 text-center">
                             <h2 className="text-uppercase section-heading">NOTES</h2>
                             <h3 className="text-muted section-subheading" id="notesSubtitle">List of all the notes in the collection</h3>
-                            <Button className="text-center" id="addNoteButton">ADD NOTE</Button>
+                            <Button className="text-center" id="addNoteButton" onClick={() => setVisibilityAddModal(true)}>ADD NOTE</Button>
+                             <AddNote visibility={showAddModal} onHide={onAddFile}/>
                         </Col>
                     </Row>
                     <NoteList />
@@ -79,6 +92,7 @@ export default function (props) {
                     </div>
                 </div>
             </footer>
+            </React.Fragment>:null}
         </React.Fragment>
         /* 
                     // <React.Fragment>

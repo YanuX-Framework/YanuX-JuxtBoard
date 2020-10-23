@@ -11,6 +11,7 @@ import Board from './components/Board'
 
 
 function App() {
+
   // return (
   //   <div className="App">
   //     <header className="App-header">
@@ -21,10 +22,10 @@ function App() {
   //   </div>
   // );
   return (
-    <body className="App" id="page-top">
+    <div className="App" id="page-top">
       <Header.NavigationBar />
         <Board.View />
-    </body>
+    </div>
   );
 }
 
