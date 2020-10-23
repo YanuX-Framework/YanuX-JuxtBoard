@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import useAuthentication from '../../hooks/useAuthentication';
 
-export default function (props) {
+export default function NavigationBar(props) {
     const { authentication, initialize, logout } = useAuthentication();
 
     const didMountRef = useRef(false);

@@ -13,6 +13,7 @@ export default function Provider({ children }) {
         typeof action === 'function' ? action(dispatch, state) : dispatch(action);
     }
 
+    // eslint-disable-next-line
     const dispatch = useCallback(asyncer(dispatchBase, state), []);
 
     return (<GlobalStore.Provider value={{ state, dispatch }}>{children}</GlobalStore.Provider>);

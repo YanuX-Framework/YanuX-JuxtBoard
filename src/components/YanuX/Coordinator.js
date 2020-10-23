@@ -7,7 +7,7 @@ import useAuthentication from '../../hooks/useAuthentication';
 import useYanuxCoordinator from '../../hooks/useYanuxCoordinator';
 import useBoard from '../../hooks/useBoard';
 
-export default function (props) {
+export default function Coordinator(props) {
     const {
         authentication,
         logout

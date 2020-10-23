@@ -1,5 +1,7 @@
 import Coordinator from './Coordinator'
 
-export default {
+const YanuX = {
     Coordinator
-}
+};
+
+export default YanuX;

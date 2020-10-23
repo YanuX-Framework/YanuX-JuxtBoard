@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
 
 import useBoard from '../../hooks/useBoard';
 
-export default function (props) {
+export default function View(props) {
     const { board, addNote } = useBoard();
 
     const [noteText, setNoteText] = useState('Hello World');

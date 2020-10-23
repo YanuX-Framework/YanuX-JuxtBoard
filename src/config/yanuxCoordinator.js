@@ -1,4 +1,4 @@
-export default {
+const config = {
     components_restrictions: {
         "List": {
             showByDefault: true,
@@ -27,4 +27,6 @@ export default {
         // }
         // ---------------------------------------------------------------------
     }
-}
+};
+
+export default config;
