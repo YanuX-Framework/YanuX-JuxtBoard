@@ -39,7 +39,7 @@ export default function (props) {
                     </Nav.Item>
                     <Nav.Item className="nav-item">
                     {authentication.idToken && authentication.idToken.email ?
-                        <Nav.Link className="nav-link js-scroll-trigger" href="#collection2">DEVICES</Nav.Link> :
+                        <Nav.Link className="nav-link js-scroll-trigger" href="#distribution">DEVICES</Nav.Link> :
                         null}
                     </Nav.Item>
                     <Nav.Item className="nav-item">
