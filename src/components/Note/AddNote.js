@@ -85,7 +85,7 @@ export const AddNote = (props) => {
                             <div className="mb-3">
                                 {noteType === "Image"?                                 
                             <i className="fa fa-image fa-2x"></i>:                       
-                            <i className="fa fa-edit"></i>
+                            <i className="fa fa-video-camera fa-2x"></i>
                             }
                               <Form.File id="upload-multimedia-custom" custom>
                                 <Form.File.Input onChange={handleChange}
