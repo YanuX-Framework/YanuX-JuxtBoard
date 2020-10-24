@@ -1,89 +1,34 @@
 import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
-import { Modal, Button, Container, Form, Row, Col, Dropdown, FormFile } from 'react-bootstrap';
+import { Modal, Button, Container, Form, Row, Col, Dropdown} from 'react-bootstrap';
 
-export const AddNote = (props) => {
 
-    //CONSTANTS
-    const imageTypes = ['image/png', 'image/jpeg'];
+export const EditNote = (props) => {
 
-    const videoType = ['video/mp4'];
-
-    //HOOKS
-
-    const [noteText, setNoteText] = useState("");
-
-    const { board, addNote } = useBoard();
-
-    const [multimediaInputValidity, setMultimediaInputValidity] = useState(false);
-
-    const [noteType, setNoteType] = useState("");
-
-    const [uploadedFile, setFile] = useState(null);
-
-    //LISTENER FUNCTIONS
-
-    const handleNoteTextChange = (event) => {
-        setNoteText(event.target.value);
-    };
-
-    const handleSelectedType = (eventKey, event) => {
-        console.log("Selected Type: " + eventKey);
-        setNoteType(eventKey);
-        setMultimediaInputValidity(false);
-        setFile(null);
-        setNoteText("");
-    }
-
-    const handleChange = (event) => {
-        let uploaded = event.target.files[0];
-        console.log("EVENT INPUT FILE: " + uploaded.name);
-        let screenTypes = null;
-        switch (noteType) {
-            case "Image":
-                screenTypes = imageTypes;
-                break;
-            case "Video":
-                screenTypes = videoType;
-                break;
-            default:
-                screenTypes = [];
-        }
-        if (screenTypes.every(type => uploaded.type !== type)) {
-            console.log("Mime Type of file has a wrong extension");
-            setMultimediaInputValidity(false);
-        }
-        else {
-            console.log("Mime Type of file has a correct extension");
-            setMultimediaInputValidity(true);
-        }
-        uploaded !== undefined ? setFile(uploaded) : console.log("File is undefined");
-
-    }
-
-    const handleAddNote = () => {
-        console.log("ADD NOTE");
+    const handleEditNote = () => {
+        console.log("EDIT NOTE");
         props.changeVisibility();
     }
 
     return (
-        <Modal
+        {/* <Modal
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
-            centered
+            text-center
+            className="portfolio-modal"
             show={props.visibility}
             onHide={props.changeVisibility}
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Add New Note
+                    Edit Note
           </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Container>
                     <Row>
                         <Col>
-                            <h3>Type: </h3>
+                            <h3 text-upercase>TEXT</h3>
                         </Col>
                         <Col>
                             <Dropdown onSelect={handleSelectedType}>
@@ -136,10 +81,10 @@ export const AddNote = (props) => {
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddNote}>Add Note</Button>
+                <Button onClick={handleEditNote}>Edit Note</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal> */}
     );
 }
 
-export default AddNote;
+export default EditNote;
