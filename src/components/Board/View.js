@@ -7,7 +7,9 @@ import NoteList from '../NoteList';
 import AddNote from '../Note/AddNote';
 import useAuthentication from '../../hooks/useAuthentication';
 
-export default function (props) {
+
+export default function View(props) {
+    const { board, addNote } = useBoard();
 
     const { authentication, initialize, logout } = useAuthentication();
 

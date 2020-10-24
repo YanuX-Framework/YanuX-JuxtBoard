@@ -5,13 +5,13 @@ import authenticationReducer, { initialState as authenticationInitialState } fro
 import yanuxCordinatorReducer, { initialState as yanuxCordinatorInitialState } from './yanuxCoordinator';
 import boardReducer, { initialState as boardInitialState } from './board';
 
-export const initialState = {
+const initialState = {
     authentication: authenticationInitialState(),
     yanuxCoordinator: yanuxCordinatorInitialState,
     board: boardInitialState
 };
 
-export default (state = initialState, action = NULL_ACTION) => {
+const reduce = (state = initialState, action = NULL_ACTION) => {
     const { authentication, yanuxCoordinator, board } = state;
     const currentState = {
         authentication: authenticationReducer(authentication, action),
@@ -21,3 +21,5 @@ export default (state = initialState, action = NULL_ACTION) => {
     middleware(action, state, currentState);
     return currentState;
 };
+
+export { initialState, reduce as default };

@@ -9,7 +9,7 @@ import authenticationConfig from '../../config/authentication';
 
 import CustomError from '../../utils/CustomError';
 
-export const initialState = () => {
+const initialState = () => {
     const idToken = localStorage.getItem('id_token') ? JSON.parse(localStorage.getItem('id_token')) : null;
     const codeVerifier = sessionStorage.getItem('code_verifier') ? sessionStorage.getItem('code_verifier') : base64url(randomBytes(32));
     const state = sessionStorage.getItem('state') ? sessionStorage.getItem('state') : base64url(randomBytes(16));
@@ -42,7 +42,7 @@ export const initialState = () => {
     };
 };
 
-export default (state = initialState(), action = NULL_ACTION) => {
+const reduce = (state = initialState(), action = NULL_ACTION) => {
     switch (action.type) {
         case types.LOGOUT:
             localStorage.clear()
@@ -91,3 +91,5 @@ export default (state = initialState(), action = NULL_ACTION) => {
             return state;
     }
 }
+
+export { initialState, reduce as default };

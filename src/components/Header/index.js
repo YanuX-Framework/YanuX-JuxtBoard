@@ -1,5 +1,7 @@
 import NavigationBar from './NavigationBar';
 
-export default {
+const Header = {
     NavigationBar
 };
+
+export default Header;

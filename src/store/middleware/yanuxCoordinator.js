@@ -1,6 +1,6 @@
 import * as types from '../actions/types';
 
-export default (action, prevState, currentState) => {
+const yanuxCoordinatorMiddleware = (action, prevState, currentState) => {
     if (currentState.yanuxCoordinator.coordinator &&
         currentState.yanuxCoordinator.coordinator.isConnected() &&
         //TODO: List the action types you used and that you want to propagate to the YanuX Broker
@@ -18,3 +18,5 @@ export default (action, prevState, currentState) => {
             .catch(e => { console.error('[YXCM] Error Saving Resource Data:', e) })
     }
 };
+
+export default yanuxCoordinatorMiddleware;

@@ -20,14 +20,14 @@ let localDeviceUrl = parameters.local_device_url ? parameters.local_device_url :
 localDeviceUrl = localDeviceUrl ? localDeviceUrl : yanuxBrokerConfig.local_device_url;
 sessionStorage.setItem('local_device_url', localDeviceUrl);
 
-export const initialState = {
+const initialState = {
     connected: false,
     coordinator: null,
     componentsRestrictions: yanuxCoordinatorConfig.components_restrictions,
     localDeviceUrl
 };
 
-export default (state = initialState, action = NULL_ACTION) => {
+const reduce = (state = initialState, action = NULL_ACTION) => {
     switch (action.type) {
         case types.LOGOUT:
             return Object.assign({}, initialState);
@@ -67,3 +67,5 @@ export default (state = initialState, action = NULL_ACTION) => {
             return state;
     }
 }
+
+export { initialState, reduce as default };
