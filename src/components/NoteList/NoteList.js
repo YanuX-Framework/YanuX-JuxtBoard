@@ -17,7 +17,7 @@ export const NoteList = (props) => {
                             <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>
                             <Card.ImgOverlay>
                                 <Card.Body>
-                                    <Card.Text>
+                                    <Card.Text style={{color: 'black'}}>
                                         {note}
                                     </Card.Text>
                                 </Card.Body>
@@ -28,7 +28,15 @@ export const NoteList = (props) => {
                         </Card>
                     </a>
                     <div className="portfolio-caption" >
-                        <h4>Text</h4>
+                        <Row>
+                            <Col>
+                            <h4>Text</h4>
+                            </Col>
+                            <Col></Col>
+                            <Col>
+                            <i className="fa fa-times" style={{color: 'red'}}></i>
+                            </Col>
+                        </Row>
                     </div>
                 </Col>
             )}
