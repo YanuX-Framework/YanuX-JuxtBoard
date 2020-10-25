@@ -9,7 +9,6 @@ import useAuthentication from '../../hooks/useAuthentication';
 
 
 export default function View(props) {
-    const { board, addNote } = useBoard();
 
     const { authentication, initialize, logout } = useAuthentication();
 

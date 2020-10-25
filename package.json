@@ -35,7 +35,8 @@
     "react-scripts": "^4.0.0",
     "serve": "^11.3.2",
     "sha.js": "^2.4.11",
-    "source-map-loader": "^1.1.1"
+    "source-map-loader": "^1.1.1",
+    "uuid": "^8.3.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

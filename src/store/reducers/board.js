@@ -9,7 +9,7 @@ const reduce = (state = initialState, action = NULL_ACTION) => {
     switch (action.type) {
         case types.ADD_NOTE:
             return Object.assign({}, state, {
-                notes: [...state.notes, action.text]
+                notes: [...state.notes, action.newNote]
             });
         case types.SET_BOARD:
             return Object.assign({}, state, {

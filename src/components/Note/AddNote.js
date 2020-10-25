@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
 import { Modal, Button, Container, Form, Row, Col, Dropdown, FormFile } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 export const AddNote = (props) => {
 
@@ -62,8 +63,18 @@ export const AddNote = (props) => {
     }
 
     const handleAddNote = () => {
-        console.log("ADD NOTE");
         props.changeVisibility();
+        let id = uuidv4();
+        switch(noteType){
+            case "Text":                
+                console.log("Adding Text Note with id: " + id+ "| Text: " + noteText);
+                addNote(id,noteType,noteText);
+                break;
+            case "Image":
+                break;
+            case "Video":
+                break;
+        }
     }
 
     return (

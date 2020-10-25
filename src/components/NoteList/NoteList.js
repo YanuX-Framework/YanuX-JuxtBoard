@@ -8,6 +8,8 @@ export const NoteList = (props) => {
 
     const { board, addNote } = useBoard();
 
+    const [lastId, updateIdCount] = useState(0);
+
     const [showEditModal, onHandleModalVisibility] = useState(false);
 
     const handleNoteClicked = (e) => {
@@ -20,15 +22,15 @@ export const NoteList = (props) => {
     return (
         <Row id="notesListRow">
 
-            {board.notes.map(note =>
-                <Col className="col-sm-6 col-md-4 portfolio-item" key={note.text}>
+            {board.notes.map((note,index) =>
+                <Col className="col-sm-6 col-md-4 portfolio-item" key={typeof note === 'object'? note.id : index}>
                     <a className="portfolio-link" data-toggle="modal" onClick={handleNoteClicked}>
                         <Card className="portfolio-hover-content" style={{height: "262 px"}}>
                             <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>
                             <Card.ImgOverlay>
                                 <Card.Body>
                                     <Card.Text style={{color: 'black'}}>
-                                        {note}
+                                        {typeof note === 'object'? note.payload: note}
                                     </Card.Text>
                                 </Card.Body>
                             </Card.ImgOverlay>                        
@@ -44,7 +46,7 @@ export const NoteList = (props) => {
                             </Col>
                             <Col></Col>
                             <Col>
-                            <i className="fa fa-times" style={{color: 'red'}}></i>
+                            <i className="fa fa-times fa-2x" style={{color: '#a6a6a6'}}></i>
                             </Col>
                         </Row>
                     </div>
