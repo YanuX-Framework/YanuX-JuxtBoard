@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
-import { ListGroup, Row, Col, Card, CardDeck } from 'react-bootstrap';
+import {  Row, Col, Card } from 'react-bootstrap';
 import './NoteList.css';
-import EditNote from'../Note/EditNote';
 
 export const NoteList = (props) => {
 

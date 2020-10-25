@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
-import { Modal, Button, Container, Form, Row, Col, Dropdown, FormFile } from 'react-bootstrap';
+import { Modal, Button, Container, Form, Row, Col, Dropdown } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export const AddNote = (props) => {
 
@@ -62,18 +63,32 @@ export const AddNote = (props) => {
 
     }
 
+    const handleSendFileToServer = (targetFile) => {
+        const data = new FormData();
+        data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
+        axios.post("http://localhost:3096/upload", data, { 
+        })
+            .then(res => { 
+                console.log("Response from server: "+res.statusText);
+            })
+    }
+
     const handleAddNote = () => {
         props.changeVisibility();
         let id = uuidv4();
-        switch(noteType){
-            case "Text":                
-                console.log("Adding Text Note with id: " + id+ "| Text: " + noteText);
-                addNote(id,noteType,noteText);
+        switch (noteType) {
+            case "Text":
+                console.log("Adding Text Note with id: " + id + "| Text: " + noteText);
+                addNote(id, noteType, noteText);
                 break;
             case "Image":
+                handleSendFileToServer(uploadedFile);
+                console.log("Adding Image Note with id: " + id + "| File Id: " + "");
                 break;
             case "Video":
                 break;
+            default:
+                console.log("Error on note type.");
         }
     }
 

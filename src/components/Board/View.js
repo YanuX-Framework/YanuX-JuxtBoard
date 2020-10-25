@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, ListGroup, Navbar, Nav, NavbarBrand, Link, Card } from 'react-bootstrap';
+import { Container, Row, Col,Button} from 'react-bootstrap';
 import './View.css';
 import YanuX from '../YanuX'
-import useBoard from '../../hooks/useBoard';
 import NoteList from '../NoteList';
 import AddNote from '../Note/AddNote';
 import useAuthentication from '../../hooks/useAuthentication';
