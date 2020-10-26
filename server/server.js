@@ -4,10 +4,14 @@ var express = require('express');
 var app = express();
 var multer = require('multer')
 var cors = require('cors');
+var fs = require("fs");
 
 app.use(cors());
 
 var uuid;
+
+//CONSTANTS
+const imageTypes = ['png', 'jpeg'];
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +21,7 @@ var storage = multer.diskStorage({
         uuid = uuidlib.v4();
         let extension = file.mimetype.split("/")[1];
         let filename = uuid + "." + extension;
-        console.log("FILENAME: " + filename);
+        console.log("New File: " + filename);
         cb(null, filename);
     }
 })
@@ -36,6 +40,21 @@ app.post('/upload', function (req, res) {
 
     })
 
+});
+
+app.get('/download', function (req, res) {
+    let uuidFile = req.query.id;
+    console.log("UUID: " + uuidFile);
+    for (extension of imageTypes) {
+        let filename = 'server/storage/' + uuidFile + "." + extension
+        console.log("Request for download file: " + filename);
+        if (fs.existsSync(filename)) {
+            res.sendFile(__dirname+"\/storage\/"+ uuidFile + "." + extension);
+            break;
+        } else {
+        }
+    }
+    console.log("Done with download");
 });
 
 app.listen(3096, function () {

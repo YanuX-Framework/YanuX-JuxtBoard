@@ -37,7 +37,7 @@ export const AddNote = (props) => {
         setNoteText("");
     }
 
-    const handleChange = (event) => {
+    const handleUploadMultimediaChange = (event) => {
         let uploaded = event.target.files[0];
         console.log("EVENT INPUT FILE: " + uploaded.name);
         let screenTypes = null;
@@ -63,13 +63,22 @@ export const AddNote = (props) => {
 
     }
 
-    const handleSendFileToServer = (targetFile) => {
+    const handleSendFileToServer = (id,noteType,targetFile) => {
         const data = new FormData();
         data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
         axios.post("http://localhost:3096/upload", data, { 
         })
             .then(res => { 
-                console.log("Response from server: "+res.statusText);
+                if(res.status === 200){
+                    console.log("File successfully saved in server");
+                    let fileId = res.data;
+                    console.log("Response: " + fileId);
+                    console.log("Adding Image Note with id: " + id + "| File Id: " + fileId);
+                    addNote(id,noteType,fileId);
+                }
+                else{
+                    console.log("File failed to save in server| Code: " + res.status);
+                }
             })
     }
 
@@ -82,14 +91,15 @@ export const AddNote = (props) => {
                 addNote(id, noteType, noteText);
                 break;
             case "Image":
-                handleSendFileToServer(uploadedFile);
-                console.log("Adding Image Note with id: " + id + "| File Id: " + "");
+                handleSendFileToServer(id,noteType,uploadedFile);
                 break;
             case "Video":
                 break;
             default:
                 console.log("Error on note type.");
         }
+        setFile(null);
+        setNoteType("");
     }
 
     return (
@@ -143,7 +153,7 @@ export const AddNote = (props) => {
                                                 <i className="fa fa-video-camera fa-2x"></i>
                                             }
                                             <Form.File id="upload-multimedia-custom" custom>
-                                                <Form.File.Input onChange={handleChange}
+                                                <Form.File.Input onChange={handleUploadMultimediaChange}
                                                     isValid={multimediaInputValidity === true && uploadedFile != null}
                                                     isInvalid={multimediaInputValidity === false && uploadedFile != null}
                                                 />
