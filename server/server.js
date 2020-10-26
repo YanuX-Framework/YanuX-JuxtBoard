@@ -13,6 +13,7 @@ var uuid;
 //CONSTANTS
 const imageTypes = ['png', 'jpeg'];
 
+
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'server/storage')
@@ -44,17 +45,14 @@ app.post('/upload', function (req, res) {
 
 app.get('/download', function (req, res) {
     let uuidFile = req.query.id;
-    console.log("UUID: " + uuidFile);
     for (extension of imageTypes) {
-        let filename = 'server/storage/' + uuidFile + "." + extension
-        console.log("Request for download file: " + filename);
+        let filename = 'server/storage/' + uuidFile + "." + extension;
         if (fs.existsSync(filename)) {
-            res.sendFile(__dirname+"\/storage\/"+ uuidFile + "." + extension);
-            break;
+            console.log("Request for download file: " + filename);
+            res.sendFile(__dirname + "\/storage\/" + uuidFile + "." + extension);
         } else {
         }
     }
-    console.log("Done with download");
 });
 
 app.listen(3096, function () {
