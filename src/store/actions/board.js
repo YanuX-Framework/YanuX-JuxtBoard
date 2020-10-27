@@ -11,6 +11,10 @@ export const removeNote = (id) => {
     return { type: types.REMOVE_NOTE, id }
 }
 
+export const updateNote = (id, payload) => {
+    return { type: types.UPDATE_NOTE, id, payload}
+}
+
 export const setBoard = board => {
     return { type: types.SET_BOARD, board }
 }

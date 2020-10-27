@@ -3,6 +3,7 @@ import useBoard from '../../hooks/useBoard';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import './NoteList.css';
 import axios from 'axios';
+import EditNote from '../Note/EditNote'
 
 export const NoteList = (props) => {
 
@@ -10,11 +11,11 @@ export const NoteList = (props) => {
 
     const [isLoading, setLoading] = useState(false);
 
-    const [videoThumbnail, setVideoThumbnail] = useState(null);
-
     const [showEditModal, onHandleModalVisibility] = useState(false);
 
     const [multimediaFiles, setMultimediaFile] = useState([])
+
+    const [selectedNote, setSelectedNote] = useState(null);
 
     function containsObject(obj, list) {
         var i;
@@ -81,8 +82,8 @@ export const NoteList = (props) => {
 
 
 
-    const handleNoteClicked = (e) => {
-        e.preventDefault();
+    const handleNoteClicked = (note) => {
+        setSelectedNote(note);
         onHandleModalVisibility(true);
         console.log("Opening modal for existing note.");
     }
@@ -105,7 +106,7 @@ export const NoteList = (props) => {
         <Row id="notesListRow">
             {board.notes.map((note, index) =>
                 <Col className="col-sm-6 col-md-4 portfolio-item" key={typeof note === 'object' ? note.id : index}>
-                    <a className="portfolio-link" data-toggle="modal" onClick={handleNoteClicked}>
+                    <a className="portfolio-link" data-toggle="modal" onClick={() => handleNoteClicked(note)}>
                         <Card className="portfolio-hover-content" style={{ height: "262 px" }}>
                             {typeof note === 'object' ? (note.noteType === 'Image' ? handleMultimediaRender(note.noteType, note.payload)
                                 : (note.noteType === 'Video' ? handleMultimediaRender(note.noteType, note.payload) : <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>)) :
@@ -122,6 +123,7 @@ export const NoteList = (props) => {
                             </div>
                         </Card>
                     </a>
+                    <EditNote visibility={showEditModal} note={selectedNote} changeVisibility={() => onHandleModalVisibility(false)} />
                     <div className="portfolio-caption" >
                         <Row>
                             <Col>

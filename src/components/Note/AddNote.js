@@ -83,7 +83,7 @@ export const AddNote = (props) => {
     }
 
     const handleAddNote = (event) => {
-        if (multimediaInputValidity === true){
+        if (multimediaInputValidity === true || noteType === 'Text'){
             props.changeVisibility();
             let id = uuidv4();
             switch (noteType) {
