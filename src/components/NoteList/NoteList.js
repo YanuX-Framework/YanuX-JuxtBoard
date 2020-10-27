@@ -1,12 +1,12 @@
 import React, { useState, Suspense } from "react";
 import useBoard from '../../hooks/useBoard';
-import { Row, Col, Card, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 import './NoteList.css';
 import axios from 'axios';
 
 export const NoteList = (props) => {
 
-    const { board, addNote } = useBoard();
+    const { board, removeNote } = useBoard();
 
     const [isLoading, setLoading] = useState(false);
 
@@ -45,12 +45,8 @@ export const NoteList = (props) => {
                         setLoading(false);
                         let newObj = { 'name': targetUuid, 'src': backImage.src };
                         setMultimediaFile(multimediaFiles => [...multimediaFiles, newObj]);
-                        if (type === 'Image') {
-                            return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
-                        }
-                        else {
-                            return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
-                        }
+                        return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
+
                     }
 
                 }
@@ -65,6 +61,10 @@ export const NoteList = (props) => {
         let obj = { 'name': uuid };
         let existingObject = containsObject(obj, multimediaFiles);
 
+        if(isLoading){
+            return <h1>Loading...</h1>
+        }
+
         if (existingObject === null && !isLoading) {
             setLoading(true);
             console.log(type + " loading from server");
@@ -73,12 +73,8 @@ export const NoteList = (props) => {
         else if (existingObject !== null && !isLoading) {
             console.log(type + " already in memory");
             let src = existingObject.src;
-            if(type === 'Image'){
-                return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>
-            }
-            else if(type === 'Video'){
-                return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>
-            }
+            return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>
+
         }
 
     }
@@ -89,6 +85,17 @@ export const NoteList = (props) => {
         e.preventDefault();
         onHandleModalVisibility(true);
         console.log("Opening modal for existing note.");
+    }
+
+    const handleDeleteNote = (note) => {
+        if (typeof note === 'object') {
+            console.log("Deleting note " + note.noteType + " from state");
+            removeNote(note.id);
+        }
+        else {
+            console.log("Deleting note " + note + " from state");
+        }
+
     }
 
 
@@ -121,8 +128,8 @@ export const NoteList = (props) => {
                                 <h4>{typeof note === 'object' ? note.noteType : "Text"}</h4>
                             </Col>
                             <Col></Col>
-                            <Col>
-                                <i className="fa fa-times fa-2x" style={{ color: '#a6a6a6' }}></i>
+                            <Col onClick={() => handleDeleteNote(note)}>
+                                <i className="fa fa-times fa-2x" ></i>
                             </Col>
                         </Row>
                     </div>

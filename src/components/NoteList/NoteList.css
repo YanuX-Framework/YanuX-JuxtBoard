@@ -12,3 +12,10 @@
     width: 349.984px;
     height: 262px;
 }
+.fa-times:hover {
+    color: red;
+}
+
+.fa-times {
+    color: #a6a6a6;
+}
