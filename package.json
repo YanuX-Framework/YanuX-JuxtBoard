@@ -18,6 +18,7 @@
   ],
   "license": "AGPL-3.0-or-later",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -27,6 +28,9 @@
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "ffmpeg": "0.0.4",
+    "ffprobe": "^1.1.2",
+    "fluent-ffmpeg": "^2.1.2",
     "jsrsasign": "^10.0.4",
     "lodash": "^4.17.20",
     "multer": "^1.4.2",
@@ -37,11 +41,13 @@
     "react-app-rewired": "^2.1.6",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-native-thumbnail-video": "^0.1.2",
     "react-scripts": "^4.0.0",
     "serve": "^11.3.2",
     "sha.js": "^2.4.11",
     "source-map-loader": "^1.1.1",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "video-thumbnail-generator": "^1.1.3"
   },
   "scripts": {
     "start": "react-app-rewired start",

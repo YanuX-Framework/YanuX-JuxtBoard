@@ -3,13 +3,14 @@ import useBoard from '../../hooks/useBoard';
 import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import './NoteList.css';
 import axios from 'axios';
-import { rstrtohex } from "jsrsasign";
 
 export const NoteList = (props) => {
 
     const { board, addNote } = useBoard();
 
     const [isLoading, setLoading] = useState(false);
+
+    const [videoThumbnail, setVideoThumbnail] = useState(null);
 
     const [showEditModal, onHandleModalVisibility] = useState(false);
 
@@ -26,7 +27,7 @@ export const NoteList = (props) => {
         return null;
     }
 
-    const retrieveMultimediaFile = (targetUuid) => {
+    const retrieveMultimediaFile = (type, targetUuid) => {
         console.log("Requesting file with uuid: " + targetUuid);
         axios.get("http://localhost:3096/download?id=" + targetUuid, {
             responseType: 'blob'
@@ -41,12 +42,15 @@ export const NoteList = (props) => {
 
                         var imageDataUrl = reader.result;
                         backImage.src = imageDataUrl;
-                        console.log("src");
-                        console.log(Object.values(backImage));
                         setLoading(false);
                         let newObj = { 'name': targetUuid, 'src': backImage.src };
                         setMultimediaFile(multimediaFiles => [...multimediaFiles, newObj]);
-                        return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
+                        if (type === 'Image') {
+                            return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
+                        }
+                        else {
+                            return <Card.Img className="w-100 d-block img-fluid" src={backImage.src} id="overlayimg2"></Card.Img>;
+                        }
                     }
 
                 }
@@ -56,22 +60,25 @@ export const NoteList = (props) => {
             })
     }
 
-    const handleImageRender = (uuid) => {
+
+    const handleMultimediaRender = (type, uuid) => {
         let obj = { 'name': uuid };
         let existingObject = containsObject(obj, multimediaFiles);
 
         if (existingObject === null && !isLoading) {
             setLoading(true);
-            console.log("Image loading from server");
-            retrieveMultimediaFile(uuid);
-            return <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-            </Spinner>;
+            console.log(type + " loading from server");
+            retrieveMultimediaFile(type, uuid);
         }
         else if (existingObject !== null && !isLoading) {
-            console.log("Image already in memory");
+            console.log(type + " already in memory");
             let src = existingObject.src;
-            return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>;
+            if(type === 'Image'){
+                return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>
+            }
+            else if(type === 'Video'){
+                return <Card.Img className="w-100 d-block img-fluid" src={src} id="overlayimg2"></Card.Img>
+            }
         }
 
     }
@@ -93,8 +100,8 @@ export const NoteList = (props) => {
                 <Col className="col-sm-6 col-md-4 portfolio-item" key={typeof note === 'object' ? note.id : index}>
                     <a className="portfolio-link" data-toggle="modal" onClick={handleNoteClicked}>
                         <Card className="portfolio-hover-content" style={{ height: "262 px" }}>
-                            {typeof note === 'object' ? (note.noteType === 'Image' ? handleImageRender(note.payload)
-                                : <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>) :
+                            {typeof note === 'object' ? (note.noteType === 'Image' ? handleMultimediaRender(note.noteType, note.payload)
+                                : (note.noteType === 'Video' ? handleMultimediaRender(note.noteType, note.payload) : <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>)) :
                                 <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>}
                             <Card.ImgOverlay>
                                 <Card.Body>
