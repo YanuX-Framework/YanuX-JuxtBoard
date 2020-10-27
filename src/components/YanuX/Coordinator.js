@@ -325,23 +325,24 @@ export default function Coordinator(props) {
 
     if (yanuxCoordinator.connected) {
         return (
-            <React.Fragment>
+            <React.Fragment> 
                 <div className="yanux-elements">
+                {props.type === "resources" ?
                     <div className="yanux-element resource-management">
                         <span className="info">Resources</span>
-                        <yanux-resource-management
+                        <yanux-resource-management 
                             ref={resourceManagementRef}
                             selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
                             resources={JSON.stringify(yanuxCoordinator.resources)} />
                     </div>
-                    {props.children}
+                    :
                     <div className="yanux-element components-distribution">
                         <span className="info">Devices</span>
                         <yanux-components-distribution
                             ref={componentsDistributionRef}
                             instanceId={yanuxCoordinator.coordinator.instance.id}
                             componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
-                    </div>
+                    </div>}
                 </div>
                 <div className="alert">
                     <Modal show={alert.show} onHide={handleCloseModal}>

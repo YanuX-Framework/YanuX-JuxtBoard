@@ -19,9 +19,12 @@
   
   .yanux-element {
     width: max-content;
-    margin: 8px auto;
     background-color: white;
     padding: 4px;
     border: 1px solid black;
     border-radius: 8px;
+    float: none;
+    margin: 0 auto;
   }
+
+  

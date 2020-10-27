@@ -1,15 +1,17 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './bootstrap-studio/bootstrap.min.css';
+import './bootstrap-studio/fonts/font-awesome.min.css';
+import './bootstrap-studio/overall.css';
 
 //import logo from './logo.svg';
 //import './App.css';
 
 import Header from './components/Header'
-import YanuX from './components/YanuX'
 import Board from './components/Board'
 
 
 function App() {
+
   // return (
   //   <div className="App">
   //     <header className="App-header">
@@ -20,11 +22,9 @@ function App() {
   //   </div>
   // );
   return (
-    <div className="App">
+    <div className="App" id="page-top">
       <Header.NavigationBar />
-      <YanuX.Coordinator>
         <Board.View />
-      </YanuX.Coordinator>
     </div>
   );
 }
