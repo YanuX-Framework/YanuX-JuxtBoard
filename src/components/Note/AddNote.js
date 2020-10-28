@@ -1,6 +1,6 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
-import { Modal, Button, Container, Form, Row, Col, Dropdown} from 'react-bootstrap';
+import { Modal, Button, Container, Form, Row, Col, Dropdown } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
@@ -39,25 +39,27 @@ export const AddNote = (props) => {
 
     const handleUploadMultimediaChange = (event) => {
         let uploaded = event.target.files[0];
-        console.log("EVENT INPUT FILE: " + uploaded.name);
-        let screenTypes = null;
-        switch (noteType) {
-            case "Image":
-                screenTypes = imageTypes;
-                break;
-            case "Video":
-                screenTypes = videoType;
-                break;
-            default:
-                screenTypes = [];
-        }
-        if (screenTypes.every(type => uploaded.type !== type)) {
-            console.log("Mime Type of file has a wrong extension");
-            setMultimediaInputValidity(false);
-        }
-        else {
-            console.log("Mime Type of file has a correct extension");
-            setMultimediaInputValidity(true);
+        if (uploaded !== undefined) {
+            console.log("EVENT INPUT FILE: " + uploaded.name);
+            let screenTypes = null;
+            switch (noteType) {
+                case "Image":
+                    screenTypes = imageTypes;
+                    break;
+                case "Video":
+                    screenTypes = videoType;
+                    break;
+                default:
+                    screenTypes = [];
+            }
+            if (screenTypes.every(type => uploaded.type !== type)) {
+                console.log("Mime Type of file has a wrong extension");
+                setMultimediaInputValidity(false);
+            }
+            else {
+                console.log("Mime Type of file has a correct extension");
+                setMultimediaInputValidity(true);
+            }
         }
         uploaded !== undefined ? setFile(uploaded) : console.log("File is undefined");
 
@@ -83,7 +85,7 @@ export const AddNote = (props) => {
     }
 
     const handleAddNote = (event) => {
-        if (multimediaInputValidity === true || noteType === 'Text'){
+        if (multimediaInputValidity === true || noteType === 'Text') {
             props.changeVisibility();
             let id = uuidv4();
             switch (noteType) {
@@ -92,16 +94,16 @@ export const AddNote = (props) => {
                     addNote(id, noteType, noteText);
                     break;
                 case "Image":
-                    handleSendFileToServer(id,noteType,uploadedFile);
+                    handleSendFileToServer(id, noteType, uploadedFile);
                     break;
-                case "Video":                
-                    handleSendFileToServer(id,noteType,uploadedFile);
+                case "Video":
+                    handleSendFileToServer(id, noteType, uploadedFile);
                     break;
                 default:
                     console.log("Error on note type.");
             }
             setFile(null);
-            setNoteType(""); 
+            setNoteType("");
         }
     }
     return (
@@ -155,7 +157,7 @@ export const AddNote = (props) => {
                                                 <i className="fa fa-video-camera fa-2x"></i>
                                             }
                                             <Form.File id="upload-multimedia-custom" custom>
-                                                <Form.File.Input onChange={handleUploadMultimediaChange} accept=".jpg,.jpeg,.mp4,.png" 
+                                                <Form.File.Input onChange={handleUploadMultimediaChange} accept=".jpg,.jpeg,.mp4,.png"
                                                     isValid={multimediaInputValidity === true && uploadedFile != null}
                                                     isInvalid={multimediaInputValidity === false && uploadedFile != null}
                                                 />
