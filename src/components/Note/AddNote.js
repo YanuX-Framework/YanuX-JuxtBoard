@@ -155,7 +155,7 @@ export const AddNote = (props) => {
                                                 <i className="fa fa-video-camera fa-2x"></i>
                                             }
                                             <Form.File id="upload-multimedia-custom" custom>
-                                                <Form.File.Input onChange={handleUploadMultimediaChange}
+                                                <Form.File.Input onChange={handleUploadMultimediaChange} accept=".jpg,.jpeg,.mp4,.png" 
                                                     isValid={multimediaInputValidity === true && uploadedFile != null}
                                                     isInvalid={multimediaInputValidity === false && uploadedFile != null}
                                                 />

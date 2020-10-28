@@ -2,7 +2,7 @@ import React from 'react';
 import './bootstrap-studio/bootstrap.min.css';
 import './bootstrap-studio/fonts/font-awesome.min.css';
 import './bootstrap-studio/overall.css';
-
+import "video-react/dist/video-react.css"; 
 //import logo from './logo.svg';
 //import './App.css';
 

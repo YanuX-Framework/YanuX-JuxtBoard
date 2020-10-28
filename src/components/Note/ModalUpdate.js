@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import useBoard from '../../hooks/useBoard';
 import { Modal, Button, ButtonGroup, Container, Card, Row, Col, Form } from 'react-bootstrap';
-import './Note.css';
-import axios from 'axios';
 
 export const ModalUpdate = (props) => {
 
@@ -27,6 +25,7 @@ export const ModalUpdate = (props) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 show={props.show}
                 onHide={props.changeVisibility}
+                contentClassName='custom-modal'
             >
                 <Modal.Body>
                     <Container>

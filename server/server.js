@@ -95,6 +95,19 @@ app.get('/download', function (req, res) {
     }
 });
 
+app.get('/fulldownload', function (req, res) {
+    let uuidFile = req.query.id;
+    var mimeTypes = imageTypes.concat(videoType);
+    for (extension of mimeTypes) {
+        let filename = __dirname + "\/storage\/" + uuidFile + "." + extension;
+        if (fs.existsSync(filename)) {
+                console.log("Request for full download file: " + filename);
+                res.sendFile(filename);
+            }
+        
+    }
+});
+
 app.listen(3096, function () {
 
     console.log('App running on port 3096');
