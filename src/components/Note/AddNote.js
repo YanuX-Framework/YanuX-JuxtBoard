@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import useBoard from '../../hooks/useBoard';
-import { Modal, Button, Container, Form, Row, Col, Dropdown, FormFile } from 'react-bootstrap';
+import { Modal, Button, Container, Form, Row, Col, Dropdown} from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export const AddNote = (props) => {
 
@@ -35,7 +37,7 @@ export const AddNote = (props) => {
         setNoteText("");
     }
 
-    const handleChange = (event) => {
+    const handleUploadMultimediaChange = (event) => {
         let uploaded = event.target.files[0];
         console.log("EVENT INPUT FILE: " + uploaded.name);
         let screenTypes = null;
@@ -61,11 +63,47 @@ export const AddNote = (props) => {
 
     }
 
-    const handleAddNote = () => {
-        console.log("ADD NOTE");
-        props.changeVisibility();
+    const handleSendFileToServer = (id, noteType, targetFile) => {
+        const data = new FormData();
+        data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
+        axios.post("http://localhost:3096/upload", data, {
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log("File successfully saved in server");
+                    let fileId = res.data;
+                    console.log("Response: " + fileId);
+                    console.log("Adding " + noteType + " with id: " + id + "| File Id: " + fileId);
+                    addNote(id, noteType, fileId);
+                }
+                else {
+                    console.log("File failed to save in server| Code: " + res.status);
+                }
+            })
     }
 
+    const handleAddNote = (event) => {
+        if (multimediaInputValidity === true){
+            props.changeVisibility();
+            let id = uuidv4();
+            switch (noteType) {
+                case "Text":
+                    console.log("Adding Text Note with id: " + id + "| Text: " + noteText);
+                    addNote(id, noteType, noteText);
+                    break;
+                case "Image":
+                    handleSendFileToServer(id,noteType,uploadedFile);
+                    break;
+                case "Video":                
+                    handleSendFileToServer(id,noteType,uploadedFile);
+                    break;
+                default:
+                    console.log("Error on note type.");
+            }
+            setFile(null);
+            setNoteType(""); 
+        }
+    }
     return (
         <Modal
             size="lg"
@@ -117,7 +155,7 @@ export const AddNote = (props) => {
                                                 <i className="fa fa-video-camera fa-2x"></i>
                                             }
                                             <Form.File id="upload-multimedia-custom" custom>
-                                                <Form.File.Input onChange={handleChange}
+                                                <Form.File.Input onChange={handleUploadMultimediaChange}
                                                     isValid={multimediaInputValidity === true && uploadedFile != null}
                                                     isInvalid={multimediaInputValidity === false && uploadedFile != null}
                                                 />

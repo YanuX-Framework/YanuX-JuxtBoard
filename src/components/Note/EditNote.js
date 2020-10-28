@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-import useBoard from '../../hooks/useBoard';
-import { Modal, Button, Container, Form, Row, Col, Dropdown} from 'react-bootstrap';
 
 
 export const EditNote = (props) => {
