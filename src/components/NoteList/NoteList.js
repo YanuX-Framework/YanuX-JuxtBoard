@@ -56,7 +56,6 @@ export const NoteList = (props) => {
     //TODO: ADD TYPE OF NOTE TO THE OBJECT TO RENDER IN EACH COMPONENT
     return (
         <React.Fragment>
-            <h3>{selectedNote === null? "NULL":selectedNote.id}</h3>
             <Row id="notesListRow">
                 {board.notes.map((note, index) =>
                     <Col className="col-sm-6 col-md-4 portfolio-item" key={typeof note === 'object' ? note.id : index}>
