@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Container, Row, Col,Button} from 'react-bootstrap';
+import useBoard from '../../hooks/useBoard';
 import './View.css';
 import YanuX from '../YanuX'
 import NoteList from '../NoteList';
 import AddNote from '../Note/AddNote';
 import useAuthentication from '../../hooks/useAuthentication';
+import EditNote from '../Note/EditNote'
 
 
 export default function View(props) {
 
+
+    const { board, removeNote,updateSelectedNote } = useBoard();
+
     const { authentication, initialize, logout } = useAuthentication();
 
     const [showAddModal, onHandleModalVisibility] = useState(false);
-
-
 
     /**
      * TODO:
@@ -27,7 +30,7 @@ export default function View(props) {
         <React.Fragment>
 
             {authentication.idToken && authentication.idToken.email ?
-                <React.Fragment>
+                    <React.Fragment>
                     <section id="collection" className="js-scroll-trigger resourcesSection" href="#services">
                         <Container>
                             <Row>

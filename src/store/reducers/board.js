@@ -2,7 +2,8 @@ import { NULL_ACTION } from '../actions';
 import * as types from '../actions/types';
 
 const initialState = {
-    notes: []
+    notes: [],
+    selectedNote: null
 }
 
 
@@ -28,9 +29,15 @@ const reduce = (state = initialState, action = NULL_ACTION) => {
 
                 })
             }
+        case types.SELECT_NOTE:
+            return {
+                ...state,
+                selectedNote: action.id
+            }
         case types.SET_BOARD:
             return Object.assign({}, state, {
-                notes: action.board ? action.board.notes : null || []
+                notes: action.board ? action.board.notes : null || [],
+                selectedNote: action.board? action.board.selectedNote : null || null
             });
         default:
             return state;

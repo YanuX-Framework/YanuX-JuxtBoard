@@ -48,8 +48,8 @@ export const EditNote = (props) => {
                                         (props.note.noteType === 'Text' ?
                                             <Card.ImgOverlay className='h-100'>
                                                 <Card.Body>
-                                                    {props.note !== null ? (props.note.noteType === 'Text' ? handleMultiLineText(props.note).map((i) => {
-                                                        return <Card.Text style={{ color: 'black' }} >{i + "\n"}
+                                                    {props.note !== null ? (props.note.noteType === 'Text' ? handleMultiLineText(props.note).map((i,key) => {
+                                                        return <Card.Text key={key} style={{ color: 'black' }} >{i + "\n"}
                                                         </Card.Text>
                                                     }) : null):null}
                                                 </Card.Body>
