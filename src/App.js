@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App" id="page-top">
       <Header.NavigationBar />
-        <Board.View />
+      <Board.View />
     </div>
   );
 }

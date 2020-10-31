@@ -59,9 +59,7 @@ const reduce = (state = initialState, action = NULL_ACTION) => {
         case types.INSTANCES_COMPONENTS_DISTRIBUTED:
             //TODO: Perhaps this conversion from plain instances to InstancesComponentsDistribution could be done internally by the (Feathers)Coordinator.
             return Object.assign({}, state, {
-                instancesComponentsDistribution: new InstancesComponentsDistribution(
-                    action.instancesComponentsDistribution
-                )
+                instancesComponentsDistribution: new InstancesComponentsDistribution(action.instancesComponentsDistribution)
             });
         default:
             return state;

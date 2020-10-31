@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
-import { Container, Row, Col,Button} from 'react-bootstrap';
-import useBoard from '../../hooks/useBoard';
 import './View.css';
+
+import React, { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+
+import useAuthentication from '../../hooks/useAuthentication';
+
 import YanuX from '../YanuX'
 import NoteList from '../NoteList';
 import AddNote from '../Note/AddNote';
-import useAuthentication from '../../hooks/useAuthentication';
-import EditNote from '../Note/EditNote'
-
 
 export default function View(props) {
-
-
-    const { board, removeNote,updateSelectedNote } = useBoard();
-
-    const { authentication, initialize, logout } = useAuthentication();
+    const { authentication } = useAuthentication();
 
     const [showAddModal, onHandleModalVisibility] = useState(false);
 
@@ -26,26 +22,9 @@ export default function View(props) {
      * - https://formatjs.io/docs/getting-started/installation
      */
     return (
-
-        <React.Fragment>
-
-            {authentication.idToken && authentication.idToken.email ?
-                    <React.Fragment>
-                    <section id="collection" className="js-scroll-trigger resourcesSection" href="#services">
-                        <Container>
-                            <Row>
-                                <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
-                                    <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Update the current collection viewed</h3>
-                                </Col>
-                            </Row>
-                            <Row className="text-center">
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <YanuX.Coordinator type="resources"></YanuX.Coordinator>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </section>
+        authentication.idToken && authentication.idToken.email ?
+            <React.Fragment>
+                <YanuX.Coordinator>
                     <section id="portfolio" className="bg-light auxSection" href="#services">
                         <Container>
                             <Row>
@@ -59,55 +38,41 @@ export default function View(props) {
                             <NoteList />
                         </Container>
                     </section>
-                    <section id="distribution" className="js-scroll-trigger" href="#services">
-                        <Container>
-                            <Row>
-                                <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">UI DISTRIBUTION</h2>
-                                    <h3 className="text-muted section-subheading" id="distributionHeading">
-                                        Manually distribute the interface between the available devices
-                            </h3>
-                                </Col>
-                            </Row>
-                            <Row className="row text-center">
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <YanuX.Coordinator type="services"></YanuX.Coordinator>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </section>
-                    <footer>
-                        <div className="container text-center">
-                            <div className="row text-center d-xl-flex justify-content-xl-center">
-                                <div className="col-md-4 text-center"><span className="copyright">Copyright © YanuX Framework 2020</span></div>
-                            </div>
+                </YanuX.Coordinator>
+                <footer>
+                    <div className="container text-center">
+                        <div className="row text-center d-xl-flex justify-content-xl-center">
+                            <div className="col-md-4 text-center"><span className="copyright">Copyright © YanuX Framework 2020</span></div>
                         </div>
-                    </footer>
-                </React.Fragment> : null}
-        </React.Fragment>
-        /* 
-                    // <React.Fragment>
-                    //     <Container>
-                    //         <Row>
-                    //             <Col>
-                    //                 <Form>
-                    //                     <Form.Group controlId="noteForm.text">
-                    //                         <Form.Label>Note Text</Form.Label>
-                    //                         <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
-                    //                     </Form.Group>
-                    //                     <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
-                    //                 </Form>
-                    //             </Col>
-                    //         </Row>
-                    //         <Row>
-                    //             <Col>
-                    //                 <h1>Board State</h1>
-                    //                 <ListGroup>
-                    //                     {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
-                    //                 </ListGroup>
-                    //             </Col>
-                    //         </Row>
-                    //     </Container>
-        // </React.Fragment> */
+                    </div>
+                </footer>
+            </React.Fragment> : null
+        // ---------------------------------------------------------------------
+        // TODO: Remove when no longer required.
+        // ---------------------------------------------------------------------
+        // <React.Fragment>
+        //     <Container>
+        //         <Row>
+        //             <Col>
+        //                 <Form>
+        //                     <Form.Group controlId="noteForm.text">
+        //                         <Form.Label>Note Text</Form.Label>
+        //                         <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
+        //                     </Form.Group>
+        //                     <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
+        //                 </Form>
+        //             </Col>
+        //         </Row>
+        //         <Row>
+        //             <Col>
+        //                 <h1>Board State</h1>
+        //                 <ListGroup>
+        //                     {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
+        //                 </ListGroup>
+        //             </Col>
+        //         </Row>
+        //     </Container>
+        // </React.Fragment>
+        // ---------------------------------------------------------------------
     )
 }

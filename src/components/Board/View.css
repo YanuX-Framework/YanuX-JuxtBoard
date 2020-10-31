@@ -1,31 +1,21 @@
-#collection{
-    padding-top:130px;
-    padding-bottom: 50px;
-}
-
-#notesSubtitle{
+#notesSubtitle {
     margin: 12px;
     margin-bottom: 15px;
 }
 
-#addNoteButton{
+#addNoteButton {
     padding: 6px 14px;padding-bottom: 15px;
 }
 
-#notesListRow{
-    padding: 12px;
-}
-
-#distributionHeading{
-    margin-bottom: 15px;
-}
-
-#portfolio, #distribution{
-    
+#portfolio {    
     padding-top:30px;
     padding-bottom: 50px;
 }
 
-#overlayimg{
+#notesListRow {
+    padding: 12px;
+}
+
+#overlayimg {
     width: 349.984px;height: 262px;
 }

@@ -1,6 +1,6 @@
 import './Coordinator.css';
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { isEqual } from 'lodash';
 
 import useAuthentication from '../../hooks/useAuthentication';
@@ -255,15 +255,15 @@ export default function Coordinator(props) {
         console.error('[YXCDE] Reset Auto Components Distribution:', e.detail);
     }
 
-    const coordinatorInitializedRef = useRef(false);
-    const componentsRuleEngineInitializedRef = useRef(false);
+    const [coordinatorInitialized, setCoordinatorInitialized] = useState(false);
+    const [componentsRuleEngineInitialized, setcomponentsRuleEngineInitialized] = useState(false);
 
     const resourceManagementRef = useRef();
     const componentsDistributionRef = useRef();
 
     useEffect(() => {
         const { coordinator, componentsRuleEngine } = yanuxCoordinator;
-        if (!coordinatorInitializedRef.current && coordinator) {
+        if (!coordinatorInitialized && coordinator) {
             coordinator.init().then(results => {
                 const [initialState, initialProxemics, initialResourceId] = results;
                 console.log('[YXC] Connected to YanuX Broker');
@@ -271,8 +271,6 @@ export default function Coordinator(props) {
                 console.log('[YXC] Initial Proxemics', initialProxemics);
                 console.log('[YXC] Initial Resource Id', initialResourceId);
                 connected(initialState, initialProxemics);
-                coordinator.subscribeResource(resourceSubscriptionHandler, initialResourceId);
-                resourceSubscriptionHandler(initialState);
                 updateResources();
             }).catch(err => {
                 //TODO:
@@ -281,15 +279,10 @@ export default function Coordinator(props) {
                 console.error('[YXC] Error Connecting to YanuX Broker', err);
                 logout();
             });
-            coordinator.subscribeResources(resourcesSubscriptionHandler);
-            coordinator.subscribeResourceSubscription(resourceSubscriptionSubscriptionHandler);
-            coordinator.subscribeProxemics(proxemicsSubscriptionHandler);
-            coordinator.subscribeInstances(instancesSubscriptionHandler);
-            coordinator.subscribeEvents(eventsSubcriptionHandler);
-            coordinator.subscribeReconnects(reconnectSubscriptionHandler);
-            coordinatorInitializedRef.current = true;
-        } else if (!componentsRuleEngineInitializedRef.current && componentsRuleEngine) {
-            updateComponents(); componentsRuleEngineInitializedRef.current = true;
+            setCoordinatorInitialized(true);
+        } else if (!componentsRuleEngineInitialized && componentsRuleEngine) {
+            updateComponents();
+            setcomponentsRuleEngineInitialized(true)
         }
 
         const resourceManagementElement = resourceManagementRef.current;
@@ -323,26 +316,70 @@ export default function Coordinator(props) {
         }
     });
 
+    useEffect(() => {
+        const { coordinator } = yanuxCoordinator;
+        console.log('[YXCRE] YanuX Coordinator State:', yanuxCoordinator);
+        if (coordinatorInitialized && componentsRuleEngineInitialized) {
+            console.log('[YXCRE] Initializing Subscriptions');
+            coordinator.subscribeResource(resourceSubscriptionHandler, coordinator.resource.id);
+            coordinator.subscribeResources(resourcesSubscriptionHandler);
+            coordinator.subscribeResourceSubscription(resourceSubscriptionSubscriptionHandler);
+            coordinator.subscribeProxemics(proxemicsSubscriptionHandler);
+            coordinator.subscribeInstances(instancesSubscriptionHandler);
+            coordinator.subscribeEvents(eventsSubcriptionHandler);
+            coordinator.subscribeReconnects(reconnectSubscriptionHandler);
+        }
+    }, [coordinatorInitialized, componentsRuleEngineInitialized])
+
     if (yanuxCoordinator.connected) {
         return (
-            <React.Fragment> 
+            <React.Fragment>
                 <div className="yanux-elements">
-                {props.type === "resources" ?
-                    <div className="yanux-element resource-management">
-                        <span className="info">Resources</span>
-                        <yanux-resource-management 
-                            ref={resourceManagementRef}
-                            selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
-                            resources={JSON.stringify(yanuxCoordinator.resources)} />
-                    </div>
-                    :
-                    <div className="yanux-element components-distribution">
-                        <span className="info">Devices</span>
-                        <yanux-components-distribution
-                            ref={componentsDistributionRef}
-                            instanceId={yanuxCoordinator.coordinator.instance.id}
-                            componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
-                    </div>}
+                    <section id="collection" className="js-scroll-trigger resourcesSection" href="#services">
+                        <Container>
+                            <Row>
+                                <Col className="col-lg-12 text-center">
+                                    <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
+                                    <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Update the current collection viewed</h3>
+                                </Col>
+                            </Row>
+                            <Row className="text-center">
+                                <Col md={{ span: 6, offset: 3 }}>
+                                    <div className="yanux-element resource-management">
+                                        <span className="info">Resources</span>
+                                        <yanux-resource-management
+                                            ref={resourceManagementRef}
+                                            selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
+                                            resources={JSON.stringify(yanuxCoordinator.resources)} />
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+                    {props.children}
+                    <section id="distribution" className="js-scroll-trigger" href="#services">
+                        <Container>
+                            <Row>
+                                <Col className="col-lg-12 text-center">
+                                    <h2 className="text-uppercase section-heading">UI DISTRIBUTION</h2>
+                                    <h3 className="text-muted section-subheading" id="distributionHeading">
+                                        Manually distribute the interface between the available devices
+                            </h3>
+                                </Col>
+                            </Row>
+                            <Row className="row text-center">
+                                <Col md={{ span: 6, offset: 3 }}>
+                                    <div className="yanux-element components-distribution">
+                                        <span className="info">Devices</span>
+                                        <yanux-components-distribution
+                                            ref={componentsDistributionRef}
+                                            instanceId={yanuxCoordinator.coordinator.instance.id}
+                                            componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
                 </div>
                 <div className="alert">
                     <Modal show={alert.show} onHide={handleCloseModal}>

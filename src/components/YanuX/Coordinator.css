@@ -1,30 +1,43 @@
 .overlay {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #7777;
-  }
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #7777;
+}
   
 .overlay .text{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 50px;
-    color: white;
-    transform: translate(-50%,-50%);
-  }
-  
-  .yanux-element {
-    width: max-content;
-    background-color: white;
-    padding: 4px;
-    border: 1px solid black;
-    border-radius: 8px;
-    float: none;
-    margin: 0 auto;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%,-50%);
+}
 
+.yanux-element {
+  width: max-content;
+  background-color: white;
+  padding: 4px;
+  border: 1px solid black;
+  border-radius: 8px;
+  float: none;
+  margin: 0 auto;
+}
+
+#collection {
+  padding-top:130px;
+  padding-bottom: 50px;
+}
+
+#distributionHeading {
+  margin-bottom: 15px;
+}
+
+#distribution {    
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
   
