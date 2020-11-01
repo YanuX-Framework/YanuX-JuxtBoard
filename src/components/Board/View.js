@@ -9,8 +9,10 @@ import YanuX from '../YanuX'
 import NoteList from '../NoteList';
 import AddNote from '../Note/AddNote';
 
+
 export default function View(props) {
     const { authentication } = useAuthentication();
+
 
     const [showAddModal, onHandleModalVisibility] = useState(false);
 
@@ -20,6 +22,7 @@ export default function View(props) {
      * The two most common solutions for React applications seem to be:
      * - https://react.i18next.com/
      * - https://formatjs.io/docs/getting-started/installation
+     * []
      */
     return (
         authentication.idToken && authentication.idToken.email ?
@@ -35,7 +38,7 @@ export default function View(props) {
                                     <AddNote visibility={showAddModal} changeVisibility={() => onHandleModalVisibility(false)} />
                                 </Col>
                             </Row>
-                            <NoteList />
+                            <NoteList/>
                         </Container>
                     </section>
                 </YanuX.Coordinator>

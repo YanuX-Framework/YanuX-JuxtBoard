@@ -95,6 +95,8 @@ export const ModalUpdate = (props) => {
     }
 
     return (
+        <React.Fragment>
+            {props.note !== null?
         <Modal
             centered
             aria-labelledby="contained-modal-title-vcenter"
@@ -141,7 +143,8 @@ export const ModalUpdate = (props) => {
                 <Button variant="secondary" onClick={props.changeVisibility}>Cancel</Button>
                 <Button onClick={() => handleEditNote(props.note)}>Update Note</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal>:null}
+        </React.Fragment>
     );
 }
 
