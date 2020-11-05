@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import config from '../../config/server';
 import useBoard from '../../hooks/useBoard';
 import { Modal, Button, Container, Form, Row, Col, Dropdown } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
@@ -68,7 +69,7 @@ export const AddNote = (props) => {
     const handleSendFileToServer = (id, noteType, targetFile) => {
         const data = new FormData();
         data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
-        axios.post("http://localhost:3096/upload", data, {
+        axios.post(config.server_url+"/upload", data, {
         })
             .then(res => {
                 if (res.status === 200) {

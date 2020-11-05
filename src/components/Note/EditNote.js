@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import config from '../../config/server';
 import { Modal, Button, ButtonGroup, Container, Card, Row, Col, Form, CardImg } from 'react-bootstrap';
 import './Note.css';
 import useYanux from '../../hooks/useYanuxCoordinator';
@@ -33,9 +34,9 @@ export const EditNote = (props) => {
                                             <h2 className='text-uppercase'>{props.note !== null ?
                                                 (typeof props.note === 'object' ? props.note.noteType : "Text") : "NULL"}</h2>
                                             <Card >
-                                                {props.note !== null ? (typeof props.note === 'object' ? (props.note.noteType === 'Image' ? <Card.Img className="w-100 h-100 d-block img-fluid" src={`http://localhost:3096/fulldownload?id=${props.note.payload}`} id="overlayimg2"></Card.Img>
+                                                {props.note !== null ? (typeof props.note === 'object' ? (props.note.noteType === 'Image' ? <Card.Img className="w-100 h-100 d-block img-fluid" src={`${config.server_url}/fulldownload?id=${props.note.payload}`} id="overlayimg2"></Card.Img>
                                                     : (props.note.noteType === 'Video' ? <Player className='w-100 h-100 d-block img-fluid' playsInline>
-                                                        <source src={`http://localhost:3096/fulldownload?id=${props.note.payload}`} />
+                                                        <source src={`${config.server_url}/fulldownload?id=${props.note.payload}`} />
                                                         <ControlBar autoHide={false} disableDefaultControls={false}>
                                                             <PlayToggle />
                                                         </ControlBar>
