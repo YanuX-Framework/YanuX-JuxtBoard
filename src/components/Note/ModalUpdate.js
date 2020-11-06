@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import config from '../../config/server';
+import serverConfig from '../../config/server';
 import useBoard from '../../hooks/useBoard';
 import { Modal, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,7 +27,7 @@ export const ModalUpdate = (props) => {
     const handleSendFileToServer = (id, noteType, targetFile) => {
         const data = new FormData();
         data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
-        axios.post(config + "/upload", data, {})
+        axios.post(serverConfig + "/upload", data, {})
             .then(res => {
                 if (res.status === 200) {
                     console.log("File successfully saved in server");

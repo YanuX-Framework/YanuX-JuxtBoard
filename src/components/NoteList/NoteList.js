@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import config from '../../config/server';
+import serverConfig from '../../config/server';
 import useBoard from '../../hooks/useBoard';
 import useYanux from '../../hooks/useYanuxCoordinator';
 import { Row, Col, Card, Button, ButtonGroup } from 'react-bootstrap';
@@ -78,7 +78,7 @@ export const NoteList = (props) => {
                             <Col className="col-sm-6 col-md-4 portfolio-item" key={typeof note === 'object' ? note.id : index}>
                                 <a className="portfolio-link" data-toggle="modal" onClick={() => handleNoteClicked(note)}>
                                     <Card className="portfolio-hover-content" style={{ height: "262 px" }}>
-                                        {typeof note === 'object' ? (note.noteType !== 'Text' ? <Card.Img className="w-100 d-block img-fluid" id="overlayimg" src={`${config.server_url}/download?id=${note.payload}`}></Card.Img>
+                                        {typeof note === 'object' ? (note.noteType !== 'Text' ? <Card.Img className="w-100 d-block img-fluid" id="overlayimg" src={`${serverConfig.server_url}/download?id=${note.payload}`}></Card.Img>
                                             : <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>) :
                                             <Card.Img className="w-100 d-block img-fluid" id="overlayimg"></Card.Img>}
                                         <Card.ImgOverlay>
