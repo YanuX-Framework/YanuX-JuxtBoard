@@ -19,7 +19,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.1",
+    "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "@yanux/coordinator": "^1.0.0",
     "axios": "^0.21.0",
@@ -28,7 +28,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
-    "jsrsasign": "^10.1.0",
+    "jsrsasign": "^10.1.2",
     "lodash": "^4.17.20",
     "multer": "^1.4.2",
     "nodemon": "^2.0.6",
