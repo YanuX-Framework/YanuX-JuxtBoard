@@ -1,26 +1,29 @@
 
+require('dotenv').config()
+
+const fs = require("fs");
+
+const express = require('express');
+const multer = require('multer')
+const cors = require('cors');
+
 const ffmpeglib = require('fluent-ffmpeg');
-var uuidlib = require('uuid');
-var express = require('express');
-var app = express();
-var multer = require('multer')
-var cors = require('cors');
-var fs = require("fs");
+const uuidlib = require('uuid');
+
+const app = express();
 app.use(cors());
 
-var uuid;
-
 //CONSTANTS
+const port = process.env.BACKEND_PORT;
 const imageTypes = ['png', 'jpeg'];
 const videoType = ['mp4'];
 
-
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'server/storage')
     },
     filename: function (req, file, cb) {
-        uuid = uuidlib.v4();
+        const uuid = uuidlib.v4();
         let extension = file.mimetype.split("/")[1];
         let filename = uuid + "." + extension;
         console.log("New File: " + filename);
@@ -28,10 +31,9 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage }).single('file')
+const upload = multer({ storage: storage }).single('file')
 
 app.post('/upload', function (req, res) {
-
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             return res.status(500).json(err)
@@ -39,19 +41,16 @@ app.post('/upload', function (req, res) {
             return res.status(500).json(err)
         }
         return res.status(200).send(uuid);
-
     })
-
 });
 
 const createThumbnail = (filename, res) => {
-    let filePath = ""
-    let fileDuration = ""
-
+    require('dotenv').config()
+    let filePath = "";
+    let fileDuration = "";
     ffmpeglib.ffprobe(filename, function (err, metadata) {
         fileDuration = metadata.format.duration
     });
-
     ffmpeglib(filename)
         .on('filenames', function (filenames) {
             console.log('Will generate ' + filenames.join(', '))
@@ -75,14 +74,12 @@ const createThumbnail = (filename, res) => {
 }
 
 app.get('/download', function (req, res) {
-    let uuidFile = req.query.id;
-    var mimeTypes = imageTypes.concat(videoType);
+    const uuidFile = req.query.id;
+    const mimeTypes = imageTypes.concat(videoType);
     for (extension of mimeTypes) {
-        let filename = __dirname + "\/storage\/" + uuidFile + "." + extension;
+        const filename = __dirname + "\/storage\/" + uuidFile + "." + extension;
         if (fs.existsSync(filename)) {
-
             if (videoType.includes(extension)) {
-
                 console.log("Request for download file: " + filename);
                 createThumbnail(filename, res);
             }
@@ -96,20 +93,17 @@ app.get('/download', function (req, res) {
 });
 
 app.get('/fulldownload', function (req, res) {
-    let uuidFile = req.query.id;
-    var mimeTypes = imageTypes.concat(videoType);
+    const uuidFile = req.query.id;
+    const mimeTypes = imageTypes.concat(videoType);
     for (extension of mimeTypes) {
         let filename = __dirname + "\/storage\/" + uuidFile + "." + extension;
         if (fs.existsSync(filename)) {
-                console.log("Request for full download file: " + filename);
-                res.sendFile(filename);
-            }
-        
+            console.log("Request for full download file: " + filename);
+            res.sendFile(filename);
+        }
     }
 });
 
-app.listen(3096, function () {
-
-    console.log('App running on port 3096');
-
+app.listen(port, function () {
+    console.log('App running on port:', port);
 });
