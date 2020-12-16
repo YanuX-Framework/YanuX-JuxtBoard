@@ -1,6 +1,6 @@
 const defaultConfig = {
     OAUTH2_CLIENT_ID: 'juxtboard',
-    OAUTH2_AUTHENTICATION_SERVER: 'https://yanux-auth.herokuapp.com',
+    OAUTH2_AUTHENTICATION_SERVER: 'http://192.168.12.1:3001' || 'https://yanux-auth.herokuapp.com',
     OAUTH2_AUTHENTICATION_SERVER_TOKEN_ENDPOINT: '/oauth2/token',
     OAUTH2_AUTHENTICATION_SERVER_AUTHORIZATION_ENDPOINT: '/oauth2/authorize',
     OAUTH2_AUTHENTICATION_SERVER_VERIFY_TOKEN_ENDPOINT: '/api/verify_oauth2',
