@@ -270,7 +270,7 @@ export default function Coordinator(props) {
                 console.log('[YXC] Initial State', initialState);
                 console.log('[YXC] Initial Proxemics', initialProxemics);
                 console.log('[YXC] Initial Resource Id', initialResourceId);
-                connected(initialState, initialProxemics);
+                connected(initialState, initialProxemics, initialResourceId);
                 updateResources();
             }).catch(err => {
                 //TODO:
@@ -349,7 +349,7 @@ export default function Coordinator(props) {
                                         <span className="info">Resources</span>
                                         <yanux-resource-management
                                             ref={resourceManagementRef}
-                                            selectedResourceId={yanuxCoordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
+                                            selectedResourceId={yanuxCoordinator.coordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
                                             resources={JSON.stringify(yanuxCoordinator.resources)} />
                                     </div>
                                 </Col>
