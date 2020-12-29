@@ -1,21 +1,24 @@
 #notesSubtitle {
     margin: 12px;
-    margin-bottom: 15px;
 }
 
 #addNoteButton {
-    padding: 6px 14px;padding-bottom: 15px;
+    padding: 7px 15px;
 }
 
 #portfolio {    
-    padding-top:30px;
+    padding-top: 30px;
     padding-bottom: 50px;
 }
 
-#notesListRow {
-    padding: 12px;
+.overlayimg {
+    width: 349.984px;
+    height: 262px;
+    background-color: lightgray;
 }
 
-#overlayimg {
-    width: 349.984px;height: 262px;
+.button-icon {
+    font-size: 1.2em;
+    vertical-align: text-bottom;
+    padding-left: 6px;
 }

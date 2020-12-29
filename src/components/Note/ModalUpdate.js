@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 export const ModalUpdate = (props) => {
-
     //CONSTANTS
     const imageTypes = ['image/png', 'image/jpeg'];
 
@@ -97,13 +96,9 @@ export const ModalUpdate = (props) => {
     return (
         <React.Fragment>
             {props.note !== null ?
-                <Modal
-                    centered
-                    aria-labelledby="contained-modal-title-vcenter"
-                    show={props.show}
-                    onHide={props.changeVisibility}
-                    contentClassName='custom-modal'
-                >
+                <Modal centered aria-labelledby="contained-modal-title-vcenter"
+                    show={props.show} onHide={props.changeVisibility}
+                    contentClassName='custom-modal'>
                     <Modal.Body>
                         <Container>
                             <Row>

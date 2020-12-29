@@ -1,8 +1,12 @@
 import React from 'react';
+
+//TODO: Replace the version of Bootstrap that came with bootstrap-studio with some other custom Bootstrap 4.5.x/5.x.y build that has a similar effect.
 import './bootstrap-studio/bootstrap.min.css';
+//TODO: FontAwesome also needs proper install.
 import './bootstrap-studio/fonts/font-awesome.min.css';
 import './bootstrap-studio/overall.css';
 import "video-react/dist/video-react.css"; 
+
 //import logo from './logo.svg';
 //import './App.css';
 

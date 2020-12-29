@@ -28,19 +28,22 @@ export default function View(props) {
         authentication.idToken && authentication.idToken.email ?
             <React.Fragment>
                 <YanuX.Coordinator>
-                    <section id="portfolio" className="bg-light auxSection" href="#services">
+                    <div id="portfolio">
                         <Container>
                             <Row>
                                 <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">NOTES</h2>
-                                    <h3 className="text-muted section-subheading" id="notesSubtitle">List of all the notes in the collection</h3>
-                                    <Button className="text-center" id="addNoteButton" onClick={() => onHandleModalVisibility(true)}>ADD NOTE</Button>
+                                    <h2 className="text-uppercase section-heading">Notes</h2>
+                                    <h3 className="text-muted section-subheading" id="notesSubtitle">Notes in the currently selected collection</h3>
+                                    <Button className="text-center text-uppercase" id="addNoteButton" onClick={() => onHandleModalVisibility(true)}>
+                                        Add Note
+                                        <i className="fa fa-plus-square button-icon"></i>
+                                    </Button>
                                     <AddNote visibility={showAddModal} changeVisibility={() => onHandleModalVisibility(false)} />
                                 </Col>
                             </Row>
                             <NoteList/>
                         </Container>
-                    </section>
+                    </div>
                 </YanuX.Coordinator>
                 <footer>
                     <div className="container text-center">
@@ -50,32 +53,5 @@ export default function View(props) {
                     </div>
                 </footer>
             </React.Fragment> : null
-        // ---------------------------------------------------------------------
-        // TODO: Remove when no longer required.
-        // ---------------------------------------------------------------------
-        // <React.Fragment>
-        //     <Container>
-        //         <Row>
-        //             <Col>
-        //                 <Form>
-        //                     <Form.Group controlId="noteForm.text">
-        //                         <Form.Label>Note Text</Form.Label>
-        //                         <Form.Control as="textarea" rows={3} value={noteText} onChange={handleNoteTextChange} />
-        //                     </Form.Group>
-        //                     <Button onClick={handleAddNoteButtonClick} variant="primary">Add Note</Button>
-        //                 </Form>
-        //             </Col>
-        //         </Row>
-        //         <Row>
-        //             <Col>
-        //                 <h1>Board State</h1>
-        //                 <ListGroup>
-        //                     {board.notes.map(note => <ListGroup.Item>{note}</ListGroup.Item>)}
-        //                 </ListGroup>
-        //             </Col>
-        //         </Row>
-        //     </Container>
-        // </React.Fragment>
-        // ---------------------------------------------------------------------
     )
 }

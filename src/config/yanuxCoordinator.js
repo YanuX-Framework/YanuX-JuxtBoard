@@ -12,6 +12,12 @@ const config = {
             speakers: { channels: { operator: ">=", value: 1 } },
             input: { operator: "OR", values: ["mouse", "touchscreen"], enforce: false },
         },
+        Edit: {
+            showByDefault: true,
+            type: { value: "smartphone", enforce: false },
+            display: true,
+            input: { operator: "OR", values: ["mouse", "touchscreen"] },
+        },
         List: {
             showByDefault: true,
             type: { value: "smartphone", enforce: false },

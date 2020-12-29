@@ -28,16 +28,14 @@
 }
 
 #collection {
-  padding-top:130px;
-  padding-bottom: 50px;
+  padding: 0;
+}
+
+#distribution {
+  padding: 0;
 }
 
 #distributionHeading {
   margin-bottom: 15px;
 }
 
-#distribution {    
-  padding-top: 30px;
-  padding-bottom: 50px;
-}
-  

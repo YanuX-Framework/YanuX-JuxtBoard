@@ -26,7 +26,7 @@ export default function NavigationBar(props) {
     const handleLogout = () => { logout(); }
 
     return (
-        <Navbar id="mainNav" collapseOnSelect expand="lg" className="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+        <Navbar id="mainNav" collapseOnSelect expand="lg" className="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
             <Container>
             <Navbar.Brand className="navbar-brand" href="#page-top">JuxtBoard</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

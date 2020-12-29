@@ -19,13 +19,11 @@ const imageTypes = ['png', 'jpeg'];
 const videoType = ['mp4'];
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'server/storage')
-    },
+    destination: function (req, file, cb) { cb(null, 'server/storage') },
     filename: function (req, file, cb) {
-        const uuid = uuidlib.v4();
+        file.uuid = uuidlib.v4();
         let extension = file.mimetype.split("/")[1];
-        let filename = uuid + "." + extension;
+        let filename = file.uuid + "." + extension;
         console.log("New File: " + filename);
         cb(null, filename);
     }
@@ -35,42 +33,32 @@ const upload = multer({ storage: storage }).single('file')
 
 app.post('/upload', function (req, res) {
     upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json(err)
-        } else if (err) {
-            return res.status(500).json(err)
-        }
-        return res.status(200).send(uuid);
+        if (err) { return res.status(500).json(err); }
+        return res.status(200).send(req.file.uuid);
     })
 });
 
 const createThumbnail = (filename, res) => {
-    require('dotenv').config()
     let filePath = "";
     let fileDuration = "";
     ffmpeglib.ffprobe(filename, function (err, metadata) {
-        fileDuration = metadata.format.duration
+        fileDuration = metadata.format.duration;
     });
-    ffmpeglib(filename)
-        .on('filenames', function (filenames) {
-            console.log('Will generate ' + filenames.join(', '))
-            console.log(filenames)
-
-            filePath = __dirname + "\/storage\/" + filenames[0];
-        })
-        .on('end', function () {
-            console.log('Thumbnail created: ' + filePath);
-            res.sendFile(filePath);
-        })
-        .on('error', function (err) {
-            console.error(err);
-        })
-        .screenshots({
-            count: 1,
-            folder: 'server/storage',
-            size: '320x240',
-            filename: 'thumbnail-%b.png'
-        })
+    ffmpeglib(filename).on('filenames', function (filenames) {
+        console.log('Will generate ' + filenames.join(', '))
+        console.log(filenames);
+        filePath = __dirname + "\/storage\/" + filenames[0];
+    }).on('end', function () {
+        console.log('Thumbnail created: ' + filePath);
+        res.sendFile(filePath);
+    }).on('error', function (err) {
+        console.error(err);
+    }).screenshots({
+        count: 1,
+        folder: 'server/storage',
+        size: '320x240',
+        filename: 'thumbnail-%b.png'
+    })
 }
 
 app.get('/download', function (req, res) {
@@ -104,6 +92,4 @@ app.get('/fulldownload', function (req, res) {
     }
 });
 
-app.listen(port, function () {
-    console.log('App running on port:', port);
-});
+app.listen(port, function () { console.log('Backend server running on port:', port); });

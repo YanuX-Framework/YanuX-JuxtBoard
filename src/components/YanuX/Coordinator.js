@@ -335,69 +335,69 @@ export default function Coordinator(props) {
         return (
             <React.Fragment>
                 <div className="yanux-elements">
-                    <section id="collection" className="js-scroll-trigger resourcesSection" href="#services">
-                        <Container>
-                            <Row>
-                                <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">COLLECTION CONFIGURATION</h2>
-                                    <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Update the current collection viewed</h3>
-                                </Col>
-                            </Row>
-                            <Row className="text-center">
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <div className="yanux-element resource-management">
-                                        <span className="info">Resources</span>
-                                        <yanux-resource-management
-                                            ref={resourceManagementRef}
-                                            selectedResourceId={yanuxCoordinator.coordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
-                                            resources={JSON.stringify(yanuxCoordinator.resources)} />
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </section>
-                    {props.children}
-                    <section id="distribution" className="js-scroll-trigger" href="#services">
-                        <Container>
-                            <Row>
-                                <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">UI DISTRIBUTION</h2>
-                                    <h3 className="text-muted section-subheading" id="distributionHeading">
-                                        Manually distribute the interface between the available devices
-                            </h3>
-                                </Col>
-                            </Row>
-                            <Row className="row text-center">
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <div className="yanux-element components-distribution">
-                                        <span className="info">Devices</span>
-                                        <yanux-components-distribution
-                                            ref={componentsDistributionRef}
-                                            instanceId={yanuxCoordinator.coordinator.instance.id}
-                                            componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </section>
+                    <Container>
+                        <Row className="justify-content-md-center">
+                            <Col lg={{ span: "auto", order: 1 }} xs={{ span: 12 }}>
+                                <div id="collection" className="js-scroll-trigger resourcesSection" href="#services">
+                                    <Container>
+                                        <Row>
+                                            <Col className="col-lg-12 text-center">
+                                                <h2 className="text-uppercase section-heading">Note Collections</h2>
+                                                <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Manage and select your note collections</h3>
+                                            </Col>
+                                        </Row>
+                                        <Row className="text-center">
+                                            <Col md={{ span: 6, offset: 3 }}>
+                                                <div className="yanux-element resource-management">
+                                                    <span className="info">Resources</span>
+                                                    <yanux-resource-management
+                                                        ref={resourceManagementRef}
+                                                        selectedResourceId={yanuxCoordinator.coordinator.subscribedResourceId || yanuxCoordinator.coordinator.resource.id}
+                                                        resources={JSON.stringify(yanuxCoordinator.resources)} />
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </div>
+                            </Col>
+                            <Col lg={{ span: "auto", order: 2 }} xs={{ span: 12, order: 'last' }}>
+                                <div id="distribution" className="js-scroll-trigger" href="#services">
+                                    <Container>
+                                        <Row>
+                                            <Col className="col-lg-12 text-center">
+                                                <h2 className="text-uppercase section-heading">UI Distribution</h2>
+                                                <h3 className="text-muted section-subheading" id="distributionHeading">
+                                                    Manually distribute the interface between the available devices
+                                                </h3>
+                                            </Col>
+                                        </Row>
+                                        <Row className="row text-center">
+                                            <Col>
+                                                <div className="yanux-element components-distribution">
+                                                    <span className="info">Devices</span>
+                                                    <yanux-components-distribution
+                                                        ref={componentsDistributionRef}
+                                                        instanceId={yanuxCoordinator.coordinator.instance.id}
+                                                        componentsDistribution={JSON.stringify(yanuxCoordinator.instancesComponentsDistribution)} />
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </div>
+                            </Col>
+                            <Col xs={{ span: 12, order: 3 }}>{props.children}</Col>
+                        </Row>
+                    </Container>
                 </div>
                 <div className="alert">
                     <Modal show={alert.show} onHide={handleCloseModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>{alert.title}</Modal.Title>
-                        </Modal.Header>
+                        <Modal.Header closeButton><Modal.Title>{alert.title}</Modal.Title></Modal.Header>
                         <Modal.Body>{alert.message}</Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={handleCloseModal}>Close</Button>
-                        </Modal.Footer>
+                        <Modal.Footer><Button variant="primary" onClick={handleCloseModal}>Close</Button></Modal.Footer>
                     </Modal>
                 </div>
             </React.Fragment>);
     } else if (authentication.idToken) {
-        return (
-            <div className="overlay">
-                <div className="text">Loading</div>
-            </div>
-        );
+        return (<div className="overlay"><div className="text">Loading</div></div>);
     } else { return null; }
 }

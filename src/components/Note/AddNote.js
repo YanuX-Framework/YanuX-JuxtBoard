@@ -16,7 +16,7 @@ export const AddNote = (props) => {
 
     const [noteText, setNoteText] = useState("");
 
-    const { board, addNote } = useBoard();
+    const { /*board,*/ addNote } = useBoard();
 
     const [multimediaInputValidity, setMultimediaInputValidity] = useState(false);
 
@@ -69,7 +69,7 @@ export const AddNote = (props) => {
     const handleSendFileToServer = (id, noteType, targetFile) => {
         const data = new FormData();
         data.append('file', targetFile); //PAIR WILL BE <FILENAME,BINARY>
-        axios.post(serverConfig.server_url+"/upload", data, {
+        axios.post(serverConfig.server_url + "/upload", data, {
         })
             .then(res => {
                 if (res.status === 200) {
@@ -113,8 +113,7 @@ export const AddNote = (props) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={props.visibility}
-            onHide={props.changeVisibility}
-        >
+            onHide={props.changeVisibility}>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Add New Note
@@ -123,15 +122,14 @@ export const AddNote = (props) => {
             <Modal.Body>
                 <Container>
                     <Row>
-                        <Col>
+                        <Col xs="auto">
                             <h3>Type: </h3>
                         </Col>
-                        <Col>
+                        <Col xs="auto">
                             <Dropdown onSelect={handleSelectedType}>
                                 <Dropdown.Toggle variant="dark">
                                     {noteType === "" ? "Choose Type" : noteType}
                                 </Dropdown.Toggle>
-
                                 <Dropdown.Menu>
                                     <Dropdown.Item eventKey="Text">Text</Dropdown.Item>
                                     <Dropdown.Item eventKey="Image">Image</Dropdown.Item>
@@ -170,14 +168,13 @@ export const AddNote = (props) => {
                                             </Form.File>
                                         </div>
                                     </Form>
-                                    : null
-                            }
+                                    : null}
                         </Col>
                     </Row>
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddNote}>Add Note</Button>
+                <Button onClick={handleAddNote}>Add Note <i className="fa fa-plus-square button-icon"></i></Button>
             </Modal.Footer>
         </Modal>
     );
