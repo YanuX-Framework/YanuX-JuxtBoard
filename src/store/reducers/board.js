@@ -22,23 +22,18 @@ const reduce = (state = initialState, action = NULL_ACTION) => {
             return {
                 ...state,
                 notes: state.notes.map((note) => {
-                    if(note.id !== action.id){
-                        return note;
-                    }
-                    return {...note,payload : action.payload}
-
+                    if (note.id !== action.id) { return note; }
+                    return { ...note, payload: action.payload }
                 })
             }
         case types.SELECT_NOTE:
             return {
                 ...state,
-                selectedNote: action.id
+                selectedNote: action.id,
+                currentAction: action.action
             }
         case types.SET_BOARD:
-            return Object.assign({}, state, {
-                notes: action.board ? action.board.notes : null || [],
-                selectedNote: action.board? action.board.selectedNote : null || null
-            });
+            return Object.assign({}, state, action.board);
         default:
             return state;
     }

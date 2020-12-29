@@ -2,7 +2,7 @@ import * as types from './types';
 
 export const addNote = (id, noteType, payload) => {
 
-    let newNote = {id,noteType,payload};
+    let newNote = { id, noteType, payload };
 
     return { type: types.ADD_NOTE, newNote }
 }
@@ -12,11 +12,11 @@ export const removeNote = (id) => {
 }
 
 export const updateNote = (id, payload) => {
-    return { type: types.UPDATE_NOTE, id, payload}
+    return { type: types.UPDATE_NOTE, id, payload }
 }
 
-export const updateSelectedNote = (id) => {
-    return {type: types.SELECT_NOTE,id}
+export const updateSelectedNote = (id, action = null) => {
+    return { type: types.SELECT_NOTE, id, action }
 }
 
 export const setBoard = board => {

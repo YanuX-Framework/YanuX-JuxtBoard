@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import useAuthentication from '../../hooks/useAuthentication';
+import useYanux from '../../hooks/useYanuxCoordinator';
 
 import YanuX from '../YanuX'
 import NoteList from '../NoteList';
@@ -12,9 +13,9 @@ import AddNote from '../Note/AddNote';
 
 export default function View(props) {
     const { authentication } = useAuthentication();
+    const { yanuxCoordinator } = useYanux();
 
-
-    const [showAddModal, onHandleModalVisibility] = useState(false);
+    const [addVisibility, setAddVisibility] = useState(false);
 
     /**
      * TODO:
@@ -31,17 +32,25 @@ export default function View(props) {
                     <div id="portfolio">
                         <Container>
                             <Row>
-                                <Col className="col-lg-12 text-center">
-                                    <h2 className="text-uppercase section-heading">Notes</h2>
-                                    <h3 className="text-muted section-subheading" id="notesSubtitle">Notes in the currently selected collection</h3>
-                                    <Button className="text-center text-uppercase" id="addNoteButton" onClick={() => onHandleModalVisibility(true)}>
-                                        Add Note
+                                {yanuxCoordinator.componentsConfig && yanuxCoordinator.componentsConfig.List === true ?
+                                    <Col className="col-lg-12 text-center">
+                                        <h2 className="text-uppercase section-heading">Notes</h2>
+                                        <h3 className="text-muted section-subheading" id="notesSubtitle">Notes in the currently selected collection</h3>
+                                        <Button className="text-center text-uppercase" id="addNoteButton" onClick={() => setAddVisibility(true)}>
+                                            Add Note
                                         <i className="fa fa-plus-square button-icon"></i>
-                                    </Button>
-                                    <AddNote visibility={showAddModal} changeVisibility={() => onHandleModalVisibility(false)} />
-                                </Col>
+                                        </Button>
+                                        <AddNote visibility={addVisibility} changeVisibility={() => setAddVisibility(false)} />
+                                    </Col> :
+                                    <Col>
+                                        <h2 className="text-uppercase section-heading">Notes</h2>
+                                        <h5 className="text-muted section-subheading" id="notesSubtitle">
+                                            <p>You may need to change the distribution of UI components to display the notes below</p>
+                                            <p>Depending on the UI distribution, you may also be able to show or edit notes on this device.</p>
+                                        </h5>
+                                    </Col>}
                             </Row>
-                            <NoteList/>
+                            <NoteList />
                         </Container>
                     </div>
                 </YanuX.Coordinator>

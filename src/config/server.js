@@ -1,5 +1,5 @@
 const defaultConfig = {
-    SERVER_URL: 'http://localhost:3008'
+    SERVER_URL: 'http://192.168.12.1:3008'
 }
 
 const config = {

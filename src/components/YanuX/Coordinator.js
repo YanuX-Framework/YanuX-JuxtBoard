@@ -261,6 +261,7 @@ export default function Coordinator(props) {
     const resourceManagementRef = useRef();
     const componentsDistributionRef = useRef();
 
+    //TODO: Fix this useEffect dependency array!
     useEffect(() => {
         const { coordinator, componentsRuleEngine } = yanuxCoordinator;
         if (!coordinatorInitialized && coordinator) {
@@ -316,6 +317,7 @@ export default function Coordinator(props) {
         }
     });
 
+    //TODO: Fix this useEffect dependency array!
     useEffect(() => {
         const { coordinator } = yanuxCoordinator;
         console.log('[YXCRE] YanuX Coordinator State:', yanuxCoordinator);
@@ -337,17 +339,17 @@ export default function Coordinator(props) {
                 <div className="yanux-elements">
                     <Container>
                         <Row className="justify-content-md-center">
-                            <Col lg={{ span: "auto", order: 1 }} xs={{ span: 12 }}>
+                            <Col lg={{ span: 6, order: 1 }} xs={{ span: 12 }}>
                                 <div id="collection" className="js-scroll-trigger resourcesSection" href="#services">
                                     <Container>
                                         <Row>
                                             <Col className="col-lg-12 text-center">
                                                 <h2 className="text-uppercase section-heading">Note Collections</h2>
-                                                <h3 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Manage and select your note collections</h3>
+                                                <h5 className="text-muted section-subheading" style={{ "marginBottom": "15px" }}>Manage your note collections</h5>
                                             </Col>
                                         </Row>
                                         <Row className="text-center">
-                                            <Col md={{ span: 6, offset: 3 }}>
+                                            <Col>
                                                 <div className="yanux-element resource-management">
                                                     <span className="info">Resources</span>
                                                     <yanux-resource-management
@@ -360,18 +362,18 @@ export default function Coordinator(props) {
                                     </Container>
                                 </div>
                             </Col>
-                            <Col lg={{ span: "auto", order: 2 }} xs={{ span: 12, order: 'last' }}>
+                            <Col lg={{ span: 6, order: 2 }} xs={{ span: 12, order: 'last' }}>
                                 <div id="distribution" className="js-scroll-trigger" href="#services">
                                     <Container>
                                         <Row>
                                             <Col className="col-lg-12 text-center">
                                                 <h2 className="text-uppercase section-heading">UI Distribution</h2>
-                                                <h3 className="text-muted section-subheading" id="distributionHeading">
-                                                    Manually distribute the interface between the available devices
-                                                </h3>
+                                                <h5 className="text-muted section-subheading" id="distributionHeading">
+                                                    Distribute UI elements across devices
+                                                </h5>
                                             </Col>
                                         </Row>
-                                        <Row className="row text-center">
+                                        <Row className="text-center">
                                             <Col>
                                                 <div className="yanux-element components-distribution">
                                                     <span className="info">Devices</span>

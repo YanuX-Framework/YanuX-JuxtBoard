@@ -3,85 +3,86 @@ import serverConfig from '../../config/server';
 import useBoard from '../../hooks/useBoard';
 import useYanux from '../../hooks/useYanuxCoordinator';
 import { Row, Col, Card, Button, ButtonGroup } from 'react-bootstrap';
+
 import './NoteList.css';
+import ShowNote from '../Note/ShowNote';
 import EditNote from '../Note/EditNote';
-import ModalUpdate from '../Note/ModalUpdate';
 
 export const NoteList = (props) => {
     const { board, removeNote, updateSelectedNote } = useBoard();
 
     const { yanuxCoordinator } = useYanux();
 
-    const [showEditModal, onHandleModalVisibility] = useState(false);
-
     const [selectedNote, setSelectedNote] = useState(null);
 
-    const [editNote, setEditNote] = useState(null);
+    const [showVisibility, setShowVisibility] = useState(false);
 
     const [editVisibility, setEditVisibility] = useState(false);
 
-    const handleStartEditButton = (note) => {
-        console.log("Start Form for update note: " + note.noteType);
-        setEditNote(note);
-        setEditVisibility(true);
+    const isNoteSelected = note => note && selectedNote && selectedNote.id === note.id;
+
+    const handleShowNote = note => {
+        console.log('Show Note:', note);
+        if (isNoteSelected(note)) { deselectNote() }
+        else { updateSelectedNote(note.id, "show"); }
     }
 
-    const handleNoteClicked = (note) => {
-        updateSelectedNote(note.id);
-        console.log("SELECTED NOTE");
+    const handleEditNote = note => {
+        console.log('Edit Note:', note);
+        if (isNoteSelected(note)) { deselectNote() }
+        else { updateSelectedNote(note.id, "edit"); }
     }
 
-    const findSelectedNote = (targetNote) => {
-        board.notes.forEach((note) => {
-            if (note.id === targetNote) {
-                console.log("Found note");
-                setSelectedNote(note);
-                onHandleModalVisibility(true);
-            }
-        });
+    const deselectNote = () => {
+        console.log('Deselect Note');
+        updateSelectedNote(null);
+        setShowVisibility(false);
+        setEditVisibility(false);
     }
 
     useEffect(() => {
-        if (board.selectedNote !== null) {
-            findSelectedNote(board.selectedNote);
-        } else {
-            onHandleModalVisibility(false);
+        const selectNote = noteId => {
+            const note = board.notes.find(note => note.id === noteId)
+            if (note) {
+                console.log("Found Note");
+                setSelectedNote(note);
+            }
         }
-    })
+        selectNote(board.selectedNote);
+        if (board.selectedNote) {
+            if (board.currentAction === "show") {
+                setShowVisibility(true);
+            } else if (board.currentAction === "edit") {
+                setEditVisibility(true);
+            }
+        } else {
+            setSelectedNote(null);
+            setShowVisibility(false);
+            setEditVisibility(false);
+        }
+    }, [board])
 
-    const handleDeleteNote = (note) => {
+    const handleDeleteNote = note => {
         if (typeof note === 'object') {
             console.log("Deleting note " + note.noteType + " from state");
             removeNote(note.id);
         }
-        else {
-            console.log("Deleting note " + note + " from state");
-        }
-
+        else { console.log("Deleting note " + note + " from state"); }
     }
 
-    const handleMultiLineText = (note) => {
-        return note.payload.split("\n");
-    }
+    const handleMultiLineText = note => note.payload.split("\n");
 
-    const deselectNote = () => {
-        console.log("DESELECT NOTE");
-        updateSelectedNote(null);
-        setEditNote(null);
-        onHandleModalVisibility(false);
-        setEditVisibility(false);
-    }
-
-    if (yanuxCoordinator.hasOwnProperty('componentsConfig')) {
-        let listView, editView, noteView = null;
-
+    let listView, editView, noteView = null;
+    if (yanuxCoordinator.componentsConfig) {
         if (yanuxCoordinator.componentsConfig.List === true) {
             listView =
                 <Row id="notesListRow">
                     {board.notes.map((note, index) =>
                         <Col className="col-sm-12 col-md-6 col-lg-4 portfolio-item" key={typeof note === 'object' ? note.id : index}>
-                            <a className="portfolio-link" data-toggle="modal" onClick={() => handleNoteClicked(note)}>
-                                <Card className="portfolio-hover-content" style={{ height: "262 px" }}>
+                            <a className="portfolio-link" data-toggle="modal" onClick={() => handleShowNote(note)}>
+                                <Card className="portfolio-hover-content"
+                                    border={isNoteSelected(note) ? "primary" : "light"}
+                                    style={{ borderWidth: "8px", height: "262 px" }}>
                                     {typeof note === 'object' ?
                                         (note.noteType !== 'Text' ?
                                             <Card.Img className="w-100 d-block img-fluid overlayimg" src={`${serverConfig.server_url}/download?id=${note.payload}`}></Card.Img> :
@@ -100,11 +101,11 @@ export const NoteList = (props) => {
                                 </Card>
                             </a>
                             <div className="portfolio-caption">
-                                <Row><Col><h4>{typeof note === 'object' ? note.noteType : "Text"}</h4></Col></Row>
+                                <Row><Col><h5>{typeof note === 'object' ? note.noteType : "Text"}</h5></Col></Row>
                                 <Row>
                                     <Col>
                                         <ButtonGroup>
-                                            <Button onClick={() => handleStartEditButton(note)} variant="secondary">
+                                            <Button onClick={() => handleEditNote(note)} variant="secondary">
                                                 Edit <i className="fa fa-edit button-icon"></i>
                                             </Button>
                                             <Button onClick={() => handleDeleteNote(note)} variant="danger">
@@ -119,35 +120,23 @@ export const NoteList = (props) => {
                 </Row>
         }
 
-        //TODO: Perhaps I should add a third YanuX component.
-        if (yanuxCoordinator.componentsConfig.Edit === true) {
-            editView =
-                <ModalUpdate note={editNote} show={editVisibility} changeVisibility={deselectNote} />
-        }
-
         if (yanuxCoordinator.componentsConfig.Note === true) {
-            noteView =
-                //TODO: Rename EditNote do ViewNote or ShowNote
-                <EditNote visibility={showEditModal} note={selectedNote} changeVisibility={deselectNote} />
+            noteView = <ShowNote note={selectedNote} visibility={showVisibility} changeVisibility={deselectNote} />
         }
 
-        //TODO: ADD TYPE OF NOTE TO THE OBJECT TO RENDER IN EACH COMPONENT
-        return (
-            <React.Fragment>
-                {showEditModal || editVisibility ?
-                    <Row className="text-center">
-                        <Col>
-                            <Button className="mt-2" variant="info" onClick={deselectNote}>Deselect Note</Button>
-                        </Col>
-                    </Row>
-                    : null
-                }
-                {listView}
-                {noteView}
-                {editView}
-            </React.Fragment>
-        );
-    } else { return null }
+        if (yanuxCoordinator.componentsConfig.Edit === true) {
+            editView = <EditNote note={selectedNote} show={editVisibility} changeVisibility={deselectNote} />
+        }
+    }
+
+    //TODO: ADD TYPE OF NOTE TO THE OBJECT TO RENDER IN EACH COMPONENT
+    return (
+        <React.Fragment>
+            {listView}
+            {noteView}
+            {editView}
+        </React.Fragment>
+    );
 }
 
 export default NoteList;
