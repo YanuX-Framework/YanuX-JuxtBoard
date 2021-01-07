@@ -107,7 +107,7 @@ export const EditNote = (props) => {
                                         <Form>
                                             <i className="fa fa-edit fa-2x"></i>
                                             <Form.Group controlId="noteForm.text">
-                                                <Form.Control as="textarea" rows={3} value={noteText} placeholder={props.note.payload}
+                                                <Form.Control as="textarea" rows={3} value={noteText || props.note.payload} placeholder={props.note.payload}
                                                     onChange={handleNoteTextChange} />
                                             </Form.Group>
                                         </Form> :

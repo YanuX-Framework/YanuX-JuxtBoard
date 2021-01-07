@@ -108,3 +108,4 @@ dist
 
 # ignore stored files
 /server/storage
+sample-files/

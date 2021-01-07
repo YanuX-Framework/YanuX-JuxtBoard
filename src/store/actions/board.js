@@ -20,5 +20,12 @@ export const updateSelectedNote = (id, action = null) => {
 }
 
 export const setBoard = board => {
+    const defaultBoard = { notes: [], selectedNote: null, currentAction: null };
+    if (!board) { board = defaultBoard }
+    else {
+        board.notes = board.notes || defaultBoard.notes;
+        board.selectedNote = board.selectedNote || defaultBoard.selectedNote;
+        board.currentAction = board.currentAction || defaultBoard.currentAction;
+    }
     return { type: types.SET_BOARD, board }
 }

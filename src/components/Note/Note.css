@@ -16,3 +16,13 @@
   min-height: 100%;
   border-radius: 0;
 }
+
+.overlaycard {
+  object-fit: contain;
+  max-height: 80vh !important;
+}
+
+.overlaycard-text {
+  background-color: lightgray;
+  height: 80vh;
+}

@@ -33,23 +33,20 @@ export const ShowNote = (props) => {
                                             {props.note !== null ?
                                                 (typeof props.note === 'object' ?
                                                     (props.note.noteType === 'Image' ?
-                                                        <Card.Img className="w-100 h-100 d-block img-fluid overlayimg2" src={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`}></Card.Img> :
+                                                        <Card.Img className="w-100 h-100 d-block img-fluid overlaycard" src={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`}></Card.Img> :
                                                         (props.note.noteType === 'Video' ?
-                                                            <Player className='w-100 h-100 d-block img-fluid' playsInline>
+                                                            <Player className='w-100 h-100 d-block img-fluid' playsInline autoPlay>
                                                                 <source src={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`} />
                                                                 <ControlBar autoHide={false} disableDefaultControls={false}><PlayToggle /></ControlBar>
                                                                 <BigPlayButton position="center" />
-                                                            </Player> :
-                                                            <Card.Img className="w-100 d-block img-fluid overlayimg"></Card.Img>)) :
-                                                    null) : null
+                                                            </Player> : <Card.Img className="w-100 d-block img-fluid overlaycard-text"></Card.Img>)) : null) : null
                                             }
                                             {props.note !== null ?
                                                 (props.note.noteType === 'Text' ?
                                                     <Card.ImgOverlay className='h-100'>
                                                         <Card.Body>
                                                             {props.note !== null ? (props.note.noteType === 'Text' ? handleMultiLineText(props.note).map((i, key) => {
-                                                                return <Card.Text key={key} style={{ color: 'black' }} >{i + "\n"}
-                                                                </Card.Text>
+                                                                return <Card.Text key={key} style={{ color: 'black' }} >{i + "\n"}</Card.Text>
                                                             }) : null) : null}
                                                         </Card.Body>
                                                     </Card.ImgOverlay> : null) : null}

@@ -2,8 +2,12 @@
     padding: 12px;
 }
 
-.overlayimg{
+#notesListRow .overlayimg{
     width: 349.984px;
     height: 262px;
     background-color: lightgray;
+}
+
+#notesListRow .card-img {
+    object-fit: contain;
 }
