@@ -1,7 +1,11 @@
 const config = {
     components_restrictions: {
+        List: {
+            type: { value: "smartphone", enforce: false },
+            display: true,
+            input: { operator: "OR", values: ["mouse", "touchscreen"] },
+        },
         Note: {
-            //showByDefault: true,
             display: {
                 operator: "AND",
                 values: {
@@ -9,17 +13,11 @@ const config = {
                     size: { operator: ">=", value: [200, null], enforce: false }
                 },
             },
-            speakers: { channels: { operator: ">=", value: 1 } },
+            //TODO: Discover why does the Vodafone Smart Ultra 6 lack speakers channel count.
+            speakers: true,
             input: { operator: "OR", values: ["mouse", "touchscreen"] },
         },
         Edit: {
-            //showByDefault: true,
-            type: { value: "smartphone", enforce: false },
-            display: true,
-            input: { operator: "OR", values: ["mouse", "touchscreen"] },
-        },
-        List: {
-            //showByDefault: true,
             type: { value: "smartphone", enforce: false },
             display: true,
             input: { operator: "OR", values: ["mouse", "touchscreen"] },
