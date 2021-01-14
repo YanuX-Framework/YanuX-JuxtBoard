@@ -87,30 +87,18 @@ export default function Coordinator(props) {
         const distributeComponents = (instanceId, activeInstances, ignoreManual = false) => {
             const { coordinator, componentsRuleEngine } = yanuxCoordinator;
             if (coordinator && componentsRuleEngine) {
-                coordinator.getProxemicsState().then(proxemics => {
-                    console.log('Merged Proxemics:', proxemics);
-                    componentsRuleEngine.proxemics = proxemics;
-                }).then(() => {
-                    componentsRuleEngine.instances = activeInstances;
-                    return componentsRuleEngine.run(ignoreManual);
-                }).then(res => {
-                    console.log(
-                        '[YXCCRE] - YanuX Coordinator Components Rule Engine -',
-                        'Instance Id:', instanceId,
-                        'Proxemics:', componentsRuleEngine.proxemics,
-                        'Instances:', componentsRuleEngine.instances,
-                        'Result', res);
+                componentsRuleEngine.instances = activeInstances;
+                componentsRuleEngine.proxemics = coordinator.proxemics.state;
+                componentsRuleEngine.run(ignoreManual).then(res => {
+                    console.log('[YXCCRE] - YanuX Coordinator Components Rule Engine - Instance Id:', instanceId,
+                        'Proxemics:', componentsRuleEngine.proxemics, 'Instances:', componentsRuleEngine.instances, 'Result', res);
                     if (coordinator.instance && coordinator.instance.id === instanceId) {
                         configureComponents(res.componentsConfig);
                         return coordinator.setComponentDistribution(res.componentsConfig, res.auto, instanceId)
-                    } else {
-                        return coordinator.setComponentDistribution({}, res.auto, instanceId)
-                    }
-                }).then(() => {
-                    return coordinator.getActiveInstances();
-                }).then(activeInstances => {
-                    instanceComponentsDistributed(activeInstances);
-                }).catch(err => console.error('[YXCCRE] Error:', err));
+                    } else { return coordinator.setComponentDistribution({}, res.auto, instanceId) }
+                }).then(() => coordinator.getActiveInstances())
+                    .then(activeInstances => instanceComponentsDistributed(activeInstances))
+                    .catch(err => console.error('[YXCCRE] Error:', err));
             }
         };
 
