@@ -102,8 +102,10 @@ export default function Coordinator(props) {
                         'Result', res);
                     if (coordinator.instance && coordinator.instance.id === instanceId) {
                         configureComponents(res.componentsConfig);
+                        return coordinator.setComponentDistribution(res.componentsConfig, res.auto, instanceId)
+                    } else {
+                        return coordinator.setComponentDistribution({}, res.auto, instanceId)
                     }
-                    return coordinator.setComponentDistribution(res.componentsConfig, res.auto, instanceId)
                 }).then(() => {
                     return coordinator.getActiveInstances();
                 }).then(activeInstances => {
