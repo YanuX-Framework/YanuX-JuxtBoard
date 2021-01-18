@@ -63,11 +63,14 @@ export const NoteList = (props) => {
     }, [board])
 
     const handleDeleteNote = note => {
-        if (typeof note === 'object') {
-            console.log("Deleting note " + note.noteType + " from state");
-            removeNote(note.id);
+        //TODO: Find a better way to handle this confirmation. This is just quick hack for a little better UX.
+        if(window.confirm('Are you sure you want to delete this note?')) {
+            if (typeof note === 'object') {
+                console.log("Deleting note " + note.noteType + " from state");
+                removeNote(note.id);
+            }
+            else { console.log("Deleting note " + note + " from state"); }
         }
-        else { console.log("Deleting note " + note + " from state"); }
     }
 
     const handleMultiLineText = note => note.payload.split("\n");
