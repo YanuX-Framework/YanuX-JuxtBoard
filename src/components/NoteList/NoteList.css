@@ -11,3 +11,9 @@
 #notesListRow .card-img {
     object-fit: contain;
 }
+
+@media (pointer: coarse) {
+    #notesListRow .portfolio-hover {
+        display: none;
+    }
+}

@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 import serverConfig from '../../config/server';
 import useBoard from '../../hooks/useBoard';
 import useYanux from '../../hooks/useYanuxCoordinator';
@@ -63,14 +67,23 @@ export const NoteList = (props) => {
     }, [board])
 
     const handleDeleteNote = note => {
-        //TODO: Find a better way to handle this confirmation. This is just quick hack for a little better UX.
-        if(window.confirm('Are you sure you want to delete this note?')) {
-            if (typeof note === 'object') {
-                console.log("Deleting note " + note.noteType + " from state");
-                removeNote(note.id);
-            }
-            else { console.log("Deleting note " + note + " from state"); }
-        }
+        confirmAlert({
+            title: 'Delete Note',
+            message: 'Are you sure you want to delete this note?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        if (typeof note === 'object') {
+                            console.log("Deleting note " + note.noteType + " from state");
+                            removeNote(note.id);
+                        }
+                        else { console.log("Deleting note " + note + " from state"); }
+                    }
+                },
+                { label: 'No' }
+            ]
+        });
     }
 
     const handleMultiLineText = note => note.payload.split("\n");
