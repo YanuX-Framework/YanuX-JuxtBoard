@@ -3,7 +3,7 @@ import serverConfig from '../../config/server';
 import { Modal, Button, ButtonGroup, Container, Card, Row, Col } from 'react-bootstrap';
 import './Note.css';
 import useYanux from '../../hooks/useYanuxCoordinator';
-import { Player, ControlBar, PlayToggle, BigPlayButton } from 'video-react';
+import ReactPlayer from 'react-player';
 
 export const ShowNote = (props) => {
     const { yanuxCoordinator } = useYanux();
@@ -35,11 +35,8 @@ export const ShowNote = (props) => {
                                                     (props.note.noteType === 'Image' ?
                                                         <Card.Img className="w-100 h-100 d-block img-fluid overlaycard" src={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`}></Card.Img> :
                                                         (props.note.noteType === 'Video' ?
-                                                            <Player className='w-100 h-100 d-block img-fluid' playsInline autoPlay>
-                                                                <source src={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`} />
-                                                                <ControlBar autoHide={false} disableDefaultControls={false}><PlayToggle /></ControlBar>
-                                                                <BigPlayButton position="center" />
-                                                            </Player> : <Card.Img className="w-100 d-block img-fluid overlaycard-text"></Card.Img>)) : null) : null
+                                                            <ReactPlayer className='w-100 h-100 d-block img-fluid' playing controls url={`${serverConfig.server_url}/fulldownload?id=${props.note.payload}`} /> :
+                                                            <Card.Img className="w-100 d-block img-fluid overlaycard-text"></Card.Img>)) : null) : null
                                             }
                                             {props.note !== null ?
                                                 (props.note.noteType === 'Text' ?
