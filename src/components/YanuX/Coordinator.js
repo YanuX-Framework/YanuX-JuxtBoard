@@ -30,7 +30,7 @@ export default function Coordinator(props) {
     }
 
     const [coordinatorInitialized, setCoordinatorInitialized] = useState(false);
-    const [componentsRuleEngineInitialized, setcomponentsRuleEngineInitialized] = useState(false);
+    const [componentsRuleEngineInitialized, setComponentsRuleEngineInitialized] = useState(false);
 
     const resourceManagementRef = useRef();
     const componentsDistributionRef = useRef();
@@ -274,7 +274,7 @@ export default function Coordinator(props) {
             setCoordinatorInitialized(true);
         } else if (!componentsRuleEngineInitialized && componentsRuleEngine) {
             updateComponents();
-            setcomponentsRuleEngineInitialized(true)
+            setComponentsRuleEngineInitialized(true)
             const resourceManagementElement = resourceManagementRef.current;
             if (resourceManagementElement) {
                 resourceManagementElement.addEventListener('resource-selected', resourceSelected);
